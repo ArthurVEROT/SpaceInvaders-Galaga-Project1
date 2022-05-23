@@ -52,6 +52,10 @@ class Game {
     });
   }
 
+  withdrawAlien() {
+    this.aliens = null;
+}
+
   moveAll() {
     this.background.move();
     if (this.spaceship.bullets) {
@@ -61,10 +65,6 @@ class Game {
     }
   }
 
-  withdrawShotAlien() {
-        this.aliens = null;
-  }
-
   drawAll() {
     this.clear();
     this.background.draw();
@@ -72,7 +72,7 @@ class Game {
 
     if (this.aliens) {
       this.aliens.draw();
-      this.spaceship.withdrawCollidedBullets(this.aliens);
+      this.spaceship.withdrawBullet(this.aliens);
     }
 
     if (this.spaceship.bullets.length > 0) {

@@ -17,6 +17,7 @@ class Alien {
   draw() {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
+  
 
   move() {}
   shoot() {}

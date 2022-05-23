@@ -16,10 +16,6 @@ class Bullet {
   move() {
     this.y -= this.moveSpeed;
   }
-  clear() {
-    // if bullet outise of the screen: CLEAR
-    // if it collides: CLEAR
-  }
 }
 
 class SpaceshipBullet extends Bullet {
@@ -40,13 +36,13 @@ class SpaceshipBullet extends Bullet {
       this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
 
     if (withinX && withinY) {
-      this.game.withdrawShotAlien()
+      this.game.withdrawAlien()
     }
     return !(withinX && withinY);
   }
 }
 
-class AliensBullet extends Bullet {
+class AlienBullet extends Bullet {
   constructor(canvas, ctx, x, y, game) {
     super(canvas, ctx, x, y, game);
   }

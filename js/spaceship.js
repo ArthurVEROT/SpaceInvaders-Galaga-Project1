@@ -41,7 +41,7 @@ class Spaceship {
     this.bullets.push(newBullet);
   }
 
-  withdrawCollidedBullets(alien) {
+  withdrawBullet(alien) {
     if (this.bullets.length > 0) {
       this.bullets = this.bullets.filter((bullet) => {
         return bullet.checkCollision(alien);
