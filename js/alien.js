@@ -1,5 +1,6 @@
 class Alien {
-  constructor(canvas, ctx, x, y) {
+  constructor(canvas, ctx, x, y, game) {
+    this.game = game;
     this.canvas = canvas;
     this.ctx = ctx;
     this.image = new Image();
@@ -17,7 +18,16 @@ class Alien {
   draw() {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
-  
+  shoot() {
+    const newBullet = new AlienBullet(
+      this.canvas,
+      this.ctx,
+      this.x + this.width / 2,
+      this.y,
+      this.game
+    );
+    this.game.alienArmy.aliensBullets.push(newBullet);
+  }
+
   move() {}
-  shoot() {}
 }

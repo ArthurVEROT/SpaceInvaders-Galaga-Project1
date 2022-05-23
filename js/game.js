@@ -6,7 +6,7 @@ class Game {
     this.background = null;
     this.backgroundMoveSpeed = 1;
     this.spaceship = null;
-    this.aliens = [];
+    this.alienArmy = null;
     this.intervalId = null;
     this.gameOn = false;
     this.init();
@@ -31,7 +31,9 @@ class Game {
       this.backgroundMoveSpeed
     );
     this.spaceship = new Spaceship(this.canvas, this.ctx, this);
-    this.makeAlien()
+    this.alienArmy = new AlienArmy(this.canvas, this.ctx, 100, 100, this);
+    this.alienArmy.makeAlien();
+    this.alienArmy.shoot();
 
     this.drawAll();
   }
@@ -52,50 +54,42 @@ class Game {
     });
   }
 
-  makeAlien() {
-    for (let i = 1; i < 8; i++) {
-      for (let j = 1; j < 8; j++) {
-        const alien = new Alien (this.canvas, this.ctx, i*40, j*20)
-        this.aliens.push(alien)
-      }
-    }
-  }
-
-  removeAlien(index) {
-    this.aliens.splice(index, 1)
-  }
-
   moveAll() {
     this.background.move();
-    if (this.spaceship.bullets) {
-      this.spaceship.bullets.forEach((bullet) => {
-        bullet.move();
-      });
+    this.alienArmy.moveBullets();
+    if (this.spaceship) {
+      this.spaceship.moveBullets();
     }
   }
 
   drawAll() {
     this.clear();
     this.background.draw();
-    this.spaceship.draw();
 
-    if (this.aliens.length > 0) {
-      this.aliens.forEach(alien => {
-        alien.draw()
-      });
-      // this.spaceship.removeBullet(this.aliens);
-      this.spaceship.checkCollisionOnEachBullets(this.aliens);
+    // Army
+    this.alienArmy.drawArmy();
+    this.alienArmy.drawBullets();
+
+    // Spaceship
+    if (this.spaceship) {
+      this.spaceship.drawSpaceship();
+      this.spaceship.drawBullets();
+
+      // Collision
+      if (this.alienArmy.aliens.length > 0) {
+        this.spaceship.checkCollisionOnEachBullets(this.alienArmy.aliens);
+      }
+      this.alienArmy.checkCollisionOnEachBullets(this.spaceship);
     }
 
-    if (this.spaceship.bullets.length > 0) {
-      this.spaceship.bullets.forEach((bullet) => {
-        bullet.draw();
-      });
-    }
+    // Move
     this.moveAll();
 
-  
     this.intervalId = requestAnimationFrame(() => this.drawAll());
+  }
+
+  removeSpaceship() {
+    this.spaceship = null;
   }
 
   win() {}

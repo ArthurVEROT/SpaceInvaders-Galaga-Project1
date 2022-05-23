@@ -9,17 +9,18 @@ class Spaceship {
     this.x = canvas.width / 2 - this.width / 2;
     this.y = canvas.height - this.height - 10;
     this.spaceshipMoveSpeed = 20;
-    this.bullets = []
+    this.bullets = [];
     this.init();
   }
 
   init() {
     this.image.src = "./images/spaceship.png";
-    this.image.addEventListener("load", () => this.draw());
+    this.image.addEventListener("load", () => this.drawSpaceship());
   }
-  draw() {
+  drawSpaceship() {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
+
   move(direction) {
     if (direction === "left") {
       if (this.x < this.width / 2) return;
@@ -31,38 +32,42 @@ class Spaceship {
     }
   }
   shoot() {
-    console.log('shoot');
     const newBullet = new SpaceshipBullet(
       this.canvas,
       this.ctx,
       this.x + this.width / 2,
       this.y,
-      this.game,
+      this.game
     );
     this.bullets.push(newBullet);
-    console.log('object', this.bullets);
   }
 
-  // removeBullet(aliens) {
-  //   if (this.bullets.length > 0) {
-  //     this.bullets = this.bullets.filter((bullet) => {
-  //       // console.log('bullet.checkCollision(aliens)', bullet.checkCollision(aliens));
-  //       return !(bullet.checkCollision(aliens));
-  //     });
-  //   }
-  // }
+  drawBullets() {
+    console.log("this.bullets.length", this.bullets.length);
+    if (!this.bullets.length > 0) {
+      return;
+    }
+    this.bullets.forEach((bullet) => {
+      bullet.draw();
+    });
+  }
+
+  moveBullets() {
+    if (!this.bullets.length > 0) {
+      return;
+    }
+    this.bullets.forEach((bullet) => {
+      bullet.move();
+    });
+  }
 
   checkCollisionOnEachBullets(aliens) {
     this.bullets.forEach((bullet, bulletIndex) => {
-      bullet.checkCollision(aliens, bulletIndex)
+      bullet.checkCollisionWithAlien(aliens, bulletIndex);
     });
-
   }
 
-  removeBullet(bulletIndex) {
-    this.bullets.splice(bulletIndex, 1)
+  removeSpaceshipBullet(bulletIndex) {
+    this.bullets.splice(bulletIndex, 1);
   }
-
 }
-
-

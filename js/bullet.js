@@ -13,18 +13,18 @@ class Bullet {
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(this.x, this.y, this.width, this.height);
   }
-  move() {
-    this.y -= this.moveSpeed;
-  }
 }
 
 class SpaceshipBullet extends Bullet {
   constructor(canvas, ctx, x, y, game) {
     super(canvas, ctx, x, y, game);
   }
+  move() {
+    this.y -= this.moveSpeed;
+  }
 
   // each bullet is responsible to check the collision
-  checkCollision(aliens, bulletIndex) {
+  checkCollisionWithAlien(aliens, bulletIndex) {
     aliens.forEach((alien, alienIndex) => {
       const alienFrontEdge = alien.y + alien.height;
       const alienRearEdge = alien.y;
@@ -37,8 +37,8 @@ class SpaceshipBullet extends Bullet {
         this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
 
       if (withinX && withinY) {
-        this.game.removeAlien(alienIndex);
-        this.game.spaceship.removeBullet(bulletIndex);
+        this.game.alienArmy.removeAlien(alienIndex);
+        this.game.spaceship.removeSpaceshipBullet(bulletIndex);
         return true;
       }
     });
@@ -49,7 +49,26 @@ class AlienBullet extends Bullet {
   constructor(canvas, ctx, x, y, game) {
     super(canvas, ctx, x, y, game);
   }
+  move() {
+    this.y += this.moveSpeed;
+  }
 
   // each bullet is responsible to check the collision
-  checkCollision() {}
+  checkCollisionWithSpaceship(spaceship, bulletIndex) {
+    const alienFrontEdge = spaceship.y + spaceship.height;
+    const alienRearEdge = spaceship.y;
+    const alienLeftEdge = spaceship.x;
+    const alienRightEdge = spaceship.x + spaceship.width;
+
+    const withinX =
+      this.x < alienRightEdge && this.x + this.width > alienLeftEdge;
+    const withinY =
+      this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
+
+    if (withinX && withinY) {
+      this.game.removeSpaceship();
+      this.game.alienArmy.removeAlienBullet(bulletIndex);
+      return true;
+    }
+  }
 }
