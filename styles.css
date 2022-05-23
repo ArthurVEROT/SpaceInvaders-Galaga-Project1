@@ -1,0 +1,32 @@
+* {
+  border: 0.5px solid red;
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#start-button {
+  cursor: pointer;
+}
+
+footer {
+
+}
+
+canvas {
+  border: 1px solid black;
+}

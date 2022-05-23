@@ -1,0 +1,1 @@
+const myNewGame = new Game()
