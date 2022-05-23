@@ -6,7 +6,7 @@ class Game {
     this.background = null;
     this.backgroundMoveSpeed = 1;
     this.spaceship = null;
-    this.aliens = null;
+    this.aliens = [];
     this.intervalId = null;
     this.gameOn = false;
     this.init();
@@ -31,7 +31,7 @@ class Game {
       this.backgroundMoveSpeed
     );
     this.spaceship = new Spaceship(this.canvas, this.ctx, this);
-    this.aliens = new Alien(this.canvas, this.ctx);
+    this.makeAlien()
 
     this.drawAll();
   }
@@ -52,9 +52,18 @@ class Game {
     });
   }
 
-  withdrawAlien() {
-    this.aliens = null;
-}
+  makeAlien() {
+    for (let i = 1; i < 8; i++) {
+      for (let j = 1; j < 8; j++) {
+        const alien = new Alien (this.canvas, this.ctx, i*40, j*20)
+        this.aliens.push(alien)
+      }
+    }
+  }
+
+  removeAlien(index) {
+    this.aliens.splice(index, 1)
+  }
 
   moveAll() {
     this.background.move();
@@ -70,9 +79,11 @@ class Game {
     this.background.draw();
     this.spaceship.draw();
 
-    if (this.aliens) {
-      this.aliens.draw();
-      this.spaceship.withdrawBullet(this.aliens);
+    if (this.aliens.length > 0) {
+      this.aliens.forEach(alien => {
+        alien.draw()
+      });
+      this.spaceship.removeBullet(this.aliens);
     }
 
     if (this.spaceship.bullets.length > 0) {
@@ -82,8 +93,7 @@ class Game {
     }
     this.moveAll();
 
-    
-
+  
     this.intervalId = requestAnimationFrame(() => this.drawAll());
   }
 

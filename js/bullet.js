@@ -25,20 +25,23 @@ class SpaceshipBullet extends Bullet {
 
   // each bullet is responsible to check the collision
   checkCollision(aliens) {
-    const alienFrontEdge = aliens.y + aliens.height;
-    const alienRearEdge = aliens.y;
-    const alienLeftEdge = aliens.x;
-    const alienRightEdge = aliens.x + aliens.width;
+    aliens.forEach((alien, index) => {
+      const alienFrontEdge = alien.y + alien.height;
+      const alienRearEdge = alien.y;
+      const alienLeftEdge = alien.x;
+      const alienRightEdge = alien.x + alien.width;
 
-    const withinX =
-      this.x < alienRightEdge && this.x + this.width > alienLeftEdge;
-    const withinY =
-      this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
+      const withinX =
+        this.x < alienRightEdge && this.x + this.width > alienLeftEdge;
+      const withinY =
+        this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
 
-    if (withinX && withinY) {
-      this.game.withdrawAlien()
-    }
-    return !(withinX && withinY);
+      if (withinX && withinY) {
+        this.game.removeAlien(index)
+        return true
+      }
+    });
+    return false
   }
 }
 

@@ -1,12 +1,12 @@
 class Alien {
-  constructor(canvas, ctx) {
+  constructor(canvas, ctx, x, y) {
     this.canvas = canvas;
     this.ctx = ctx;
     this.image = new Image();
     this.width = 20;
     this.height = 20;
-    this.x = this.canvas.width / 2;
-    this.y = this.canvas.height / 3;
+    this.x = x;
+    this.y = y;
     this.aliensMoveSpeed = 3;
     this.init();
   }
@@ -18,7 +18,6 @@ class Alien {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
   
-
   move() {}
   shoot() {}
 }

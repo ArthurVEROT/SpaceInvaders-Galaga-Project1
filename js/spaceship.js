@@ -31,6 +31,7 @@ class Spaceship {
     }
   }
   shoot() {
+    console.log('shoot');
     const newBullet = new SpaceshipBullet(
       this.canvas,
       this.ctx,
@@ -39,12 +40,14 @@ class Spaceship {
       this.game,
     );
     this.bullets.push(newBullet);
+    console.log('object', this.bullets);
   }
 
-  withdrawBullet(alien) {
+  removeBullet(aliens) {
     if (this.bullets.length > 0) {
       this.bullets = this.bullets.filter((bullet) => {
-        return bullet.checkCollision(alien);
+        // console.log('bullet.checkCollision(aliens)', bullet.checkCollision(aliens));
+        return !(bullet.checkCollision(aliens));
       });
     }
   }
