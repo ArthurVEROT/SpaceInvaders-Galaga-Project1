@@ -43,13 +43,24 @@ class Spaceship {
     console.log('object', this.bullets);
   }
 
-  removeBullet(aliens) {
-    if (this.bullets.length > 0) {
-      this.bullets = this.bullets.filter((bullet) => {
-        // console.log('bullet.checkCollision(aliens)', bullet.checkCollision(aliens));
-        return !(bullet.checkCollision(aliens));
-      });
-    }
+  // removeBullet(aliens) {
+  //   if (this.bullets.length > 0) {
+  //     this.bullets = this.bullets.filter((bullet) => {
+  //       // console.log('bullet.checkCollision(aliens)', bullet.checkCollision(aliens));
+  //       return !(bullet.checkCollision(aliens));
+  //     });
+  //   }
+  // }
+
+  checkCollisionOnEachBullets(aliens) {
+    this.bullets.forEach((bullet, bulletIndex) => {
+      bullet.checkCollision(aliens, bulletIndex)
+    });
+
+  }
+
+  removeBullet(bulletIndex) {
+    this.bullets.splice(bulletIndex, 1)
   }
 
 }

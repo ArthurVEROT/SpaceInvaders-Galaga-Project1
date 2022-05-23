@@ -83,7 +83,8 @@ class Game {
       this.aliens.forEach(alien => {
         alien.draw()
       });
-      this.spaceship.removeBullet(this.aliens);
+      // this.spaceship.removeBullet(this.aliens);
+      this.spaceship.checkCollisionOnEachBullets(this.aliens);
     }
 
     if (this.spaceship.bullets.length > 0) {
