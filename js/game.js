@@ -8,7 +8,7 @@ class Game {
     this.spaceship = null;
     this.aliens = null;
     this.intervalId = null;
-    this.gameOn = false
+    this.gameOn = false;
     this.init();
   }
   init() {
@@ -20,23 +20,23 @@ class Game {
   }
 
   startGame() {
-    if (this.gameOn === true) {return}
-
-    this.gameOn = true
+    if (this.gameOn === true) {
+      return;
+    }
+    this.gameOn = true;
     this.createEventListeners();
     this.background = new Background(
       this.canvas,
       this.ctx,
       this.backgroundMoveSpeed
     );
-    this.spaceship = new Spaceship(this.canvas, this.ctx);
+    this.spaceship = new Spaceship(this.canvas, this.ctx, this);
     this.aliens = new Alien(this.canvas, this.ctx);
-    
+
     this.drawAll();
   }
   clear() {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
   createEventListeners() {
     window.addEventListener("keydown", (e) => {
@@ -46,17 +46,47 @@ class Game {
       if (e.code === "ArrowRight") {
         this.spaceship.move("right");
       }
+      if (e.code === "Space") {
+        this.spaceship.shoot();
+      }
     });
   }
-  drawAll() {
-    this.clear()
-    this.background.draw()
-    this.background.move()
-    this.spaceship.draw()
-    this.aliens.draw()
 
-    this.intervalId = requestAnimationFrame(() => this.drawAll())
+  moveAll() {
+    this.background.move();
+    if (this.spaceship.bullets) {
+      this.spaceship.bullets.forEach((bullet) => {
+        bullet.move();
+      });
+    }
   }
+
+  withdrawShotAlien() {
+        this.aliens = null;
+  }
+
+  drawAll() {
+    this.clear();
+    this.background.draw();
+    this.spaceship.draw();
+
+    if (this.aliens) {
+      this.aliens.draw();
+      this.spaceship.withdrawCollidedBullets(this.aliens);
+    }
+
+    if (this.spaceship.bullets.length > 0) {
+      this.spaceship.bullets.forEach((bullet) => {
+        bullet.draw();
+      });
+    }
+    this.moveAll();
+
+    
+
+    this.intervalId = requestAnimationFrame(() => this.drawAll());
+  }
+
   win() {}
   lose() {}
   stage() {}

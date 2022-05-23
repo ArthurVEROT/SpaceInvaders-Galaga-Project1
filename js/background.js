@@ -14,19 +14,19 @@ class Background {
   }
 
   draw() {
-    this.ctx.drawImage(this.image, 0, this.y, canvas.width, canvas.height); 
+    this.ctx.drawImage(this.image, 0, this.y, canvas.width, canvas.height);
     this.ctx.drawImage(
-    	this.image,
-    	0,
-    	this.y - this.canvas.height,
-    	canvas.width,
-    	canvas.height
-    )
+      this.image,
+      0,
+      this.y - this.canvas.height,
+      canvas.width,
+      canvas.height
+    );
   }
   move() {
-    this.y += this.moveSpeed
-		if (this.y >= this.canvas.height) {
-			this.y = 0
-		}
+    this.y += this.moveSpeed;
+    if (this.y >= this.canvas.height) {
+      this.y = 0;
+    }
   }
 }

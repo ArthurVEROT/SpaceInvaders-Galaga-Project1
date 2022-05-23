@@ -1,29 +1,56 @@
-class Bullets {
-  constructor() {
+class Bullet {
+  constructor(canvas, ctx, x, y, game) {
+    this.game = game;
+    this.canvas = canvas;
+    this.ctx = ctx;
+    this.width = 5;
+    this.height = 5;
+    this.x = x;
+    this.y = y;
+    this.moveSpeed = 2;
   }
-	draw() {
-	}
-	move() {
-	}
+  draw() {
+    this.ctx.fillStyle = "white";
+    this.ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+  move() {
+    this.y -= this.moveSpeed;
+  }
   clear() {
-
+    // if bullet outise of the screen: CLEAR
+    // if it collides: CLEAR
   }
 }
 
-class AliensBullets extends Bullets {
-  constructor() {
-    this.aliensBulletsMoveSpeed = 10
+class SpaceshipBullet extends Bullet {
+  constructor(canvas, ctx, x, y, game) {
+    super(canvas, ctx, x, y, game);
   }
-	// each bullet is responsible to check the collision
-	checkCollision() {
-	}
+
+  // each bullet is responsible to check the collision
+  checkCollision(aliens) {
+    const alienFrontEdge = aliens.y + aliens.height;
+    const alienRearEdge = aliens.y;
+    const alienLeftEdge = aliens.x;
+    const alienRightEdge = aliens.x + aliens.width;
+
+    const withinX =
+      this.x < alienRightEdge && this.x + this.width > alienLeftEdge;
+    const withinY =
+      this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
+
+    if (withinX && withinY) {
+      this.game.withdrawShotAlien()
+    }
+    return !(withinX && withinY);
+  }
 }
 
-class SpaceshipBullets extends Bullets {
-  constructor() {
-    this.spaceshipsBulletsMoveSpeed = 10
+class AliensBullet extends Bullet {
+  constructor(canvas, ctx, x, y, game) {
+    super(canvas, ctx, x, y, game);
   }
-	// each bullet is responsible to check the collision
-	checkCollision() {
-	}
+
+  // each bullet is responsible to check the collision
+  checkCollision() {}
 }
