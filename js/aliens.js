@@ -21,5 +21,6 @@ class Alien {
 	move() {
 	}
 	shoot() {
+    
 	}
 }
