@@ -3,12 +3,16 @@ class Game {
     this.frameCount = 0;
     this.canvas = null;
     this.ctx = null;
+    this.score = null;
+    this.highScore = null;
     this.background = null;
     this.backgroundMoveSpeed = 1;
     this.spaceship = null;
     this.alienArmy = null;
     this.intervalId = null;
     this.gameOn = false;
+    this.shootingStart = null;
+    this.moveStart = null;
     this.init();
   }
   init() {
@@ -20,6 +24,7 @@ class Game {
   }
 
   startGame() {
+    this.loopTime = Date.now();
     if (this.gameOn === true) {
       return;
     }
@@ -43,15 +48,50 @@ class Game {
   createEventListeners() {
     window.addEventListener("keydown", (e) => {
       if (e.code === "ArrowLeft") {
-        this.spaceship.move("left");
+        this.spaceship.ArrowLeft = true;
+        this.spaceship.move();
+        this.moveStart = Date.now();
       }
       if (e.code === "ArrowRight") {
-        this.spaceship.move("right");
+        this.spaceship.ArrowRight = true;
+        this.spaceship.move();
+        this.moveStart = Date.now();
       }
       if (e.code === "Space") {
+        this.spaceship.Space = true;
         this.spaceship.shoot();
+        this.shootingStart = Date.now();
       }
     });
+    window.addEventListener("keyup", (e) => {
+      if (e.code === "ArrowLeft") {
+        this.spaceship.ArrowLeft = false;
+        this.moveStart = null;
+      }
+      if (e.code === "ArrowRight") {
+        this.spaceship.ArrowRight = false;
+        this.moveStart = null;
+      }
+      if (e.code === "Space") {
+        this.spaceship.Space = false;
+        this.shootingStart = null;
+      }
+    });
+  }
+
+  trackScore() {
+  }
+
+  drawScore() {
+    ctx.font = '48px serif';
+    ctx.fillText('Score :', 10, 50);
+  }
+
+  trackHighScore() {
+
+  }
+  drawHighScore() {
+
   }
 
   moveAll() {
@@ -63,6 +103,7 @@ class Game {
   }
 
   drawAll() {
+    const currentTime = Date.now();
     this.clear();
     this.background.draw();
 
@@ -76,6 +117,19 @@ class Game {
       this.spaceship.drawSpaceship();
       this.spaceship.drawBullets();
       this.spaceship.checkBoundariesForBullets();
+
+      // Spaceship Shooting
+      if (currentTime > this.shootingStart + 100) {
+        this.shootingStart = Date.now();
+        this.spaceship.shoot();
+      }
+
+      // Spaceship moving
+      if (currentTime > this.moveStart + 10) {
+        this.moveStart = Date.now();
+        this.spaceship.move();
+      }
+
       // Collision between bullets
       this.spaceship.checkCollisionWithBullets(this.alienArmy.aliensBullets);
 
@@ -84,7 +138,7 @@ class Game {
         this.spaceship.checkCollisionWithAliens(this.alienArmy.aliens);
       }
       this.alienArmy.checkCollisionWithSpaceship(this.spaceship);
-    }
+      }
 
     // Move
     this.moveAll();

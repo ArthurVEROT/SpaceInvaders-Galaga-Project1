@@ -11,7 +11,7 @@ class Bullet {
   }
   draw() {
     this.ctx.fillStyle = "white";
-    this.ctx.fillRect(this.x, this.y, this.width, this.height);
+    this.ctx.fillRect(this.x - this.width/2, this.y, this.width, this.height);
   }
   isBulletOutside() {
     if(this.x > this.canvas.width) {

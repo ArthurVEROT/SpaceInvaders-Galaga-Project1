@@ -17,7 +17,7 @@ class AlienArmy {
         const alien = new Alien(
           this.canvas,
           this.ctx,
-          i * 40,
+          i * 60,
           j * 20,
           this.game
         );

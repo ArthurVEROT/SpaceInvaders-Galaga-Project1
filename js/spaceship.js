@@ -8,8 +8,11 @@ class Spaceship {
     this.height = 40;
     this.x = canvas.width / 2 - this.width / 2;
     this.y = canvas.height - this.height - 10;
-    this.spaceshipMoveSpeed = 20;
+    this.spaceshipMoveSpeed = 2;
     this.bullets = [];
+    this.ArrowRight = false;
+    this.ArrowLeft = false;
+    this.Space = false;
     this.init();
   }
 
@@ -21,25 +24,27 @@ class Spaceship {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 
-  move(direction) {
-    if (direction === "left") {
+  move() {
+    if (this.ArrowLeft === true) {
       if (this.x < this.width / 2) return;
       this.x -= this.spaceshipMoveSpeed;
     }
-    if (direction === "right") {
+    if (this.ArrowRight === true) {
       if (this.x > this.canvas.width - this.width * 1.5) return;
       this.x += this.spaceshipMoveSpeed;
     }
   }
   shoot() {
-    const newBullet = new SpaceshipBullet(
-      this.canvas,
-      this.ctx,
-      this.x + this.width / 2,
-      this.y,
-      this.game
-    );
-    this.bullets.push(newBullet);
+    if (this.Space === true) {
+      const newBullet = new SpaceshipBullet(
+        this.canvas,
+        this.ctx,
+        this.x + this.width / 2,
+        this.y,
+        this.game
+      );
+      this.bullets.push(newBullet);
+    }
   }
 
   drawBullets() {
@@ -68,13 +73,16 @@ class Spaceship {
 
   checkCollisionWithBullets(aliensBullets) {
     this.bullets.forEach((bullet, spaceshipBulletIndex) => {
-      bullet.checkCollisionWithAliensBullets(aliensBullets, spaceshipBulletIndex)
+      bullet.checkCollisionWithAliensBullets(
+        aliensBullets,
+        spaceshipBulletIndex
+      );
     });
   }
 
   checkBoundariesForBullets() {
     this.bullets.forEach((bullet, bulletIndex) => {
-      bullet.isSpaceshipBulletOutside(bulletIndex)
+      bullet.isSpaceshipBulletOutside(bulletIndex);
     });
   }
 
