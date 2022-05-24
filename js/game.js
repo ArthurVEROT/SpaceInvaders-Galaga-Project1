@@ -1,18 +1,20 @@
 class Game {
   constructor() {
-    this.frameCount = 0;
     this.canvas = null;
     this.ctx = null;
-    this.score = null;
-    this.highScore = null;
+    this.score = 0;
+    this.highScore = 0;
     this.background = null;
     this.backgroundMoveSpeed = 1;
     this.spaceship = null;
     this.alienArmy = null;
-    this.intervalId = null;
-    this.gameOn = false;
-    this.shootingStart = null;
+    this.requestId = null;
+    this.spaceshipShootingStart = null;
+    this.aliensShootingStart = Date.now();
     this.moveStart = null;
+    this.gameOn = false;
+    this.lose = false;
+    this.win = false;
     this.init();
   }
   init() {
@@ -24,7 +26,6 @@ class Game {
   }
 
   startGame() {
-    this.loopTime = Date.now();
     if (this.gameOn === true) {
       return;
     }
@@ -37,10 +38,9 @@ class Game {
     );
     this.spaceship = new Spaceship(this.canvas, this.ctx, this);
     this.alienArmy = new AlienArmy(this.canvas, this.ctx, 100, 100, this);
-    this.alienArmy.makeAliens();
-    this.alienArmy.shoot();
+    // this.alienArmy.makeAliens();
 
-    this.drawAll();
+    this.runEveryFrame();
   }
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -79,57 +79,58 @@ class Game {
     });
   }
 
-  trackScore() {
+  trackScoreAndHighScore() {
+    this.score += 1;
+    if (this.highScore <= this.score) {
+      this.highScore = this.score;
+    }
   }
 
   drawScore() {
-    ctx.font = '48px serif';
-    ctx.fillText('Score :', 10, 50);
+    this.ctx.font = "16px serif";
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText(`Score: ${this.score}`, 5, 20);
   }
 
-  trackHighScore() {
-
-  }
   drawHighScore() {
-
+    this.ctx.font = "16px serif";
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText(
+      `High score: ${this.highScore}`,
+      this.canvas.width - 100,
+      20
+    );
   }
 
-  moveAll() {
+  moveAll(currentTime) {
     this.background.move();
     this.alienArmy.moveBullets();
     if (this.spaceship) {
       this.spaceship.moveBullets();
-    }
-  }
-
-  drawAll() {
-    const currentTime = Date.now();
-    this.clear();
-    this.background.draw();
-
-    // Alien Army
-    this.alienArmy.drawArmy();
-    this.alienArmy.drawBullets();
-    this.alienArmy.checkBoundariesForBullets();
-
-    // Spaceship
-    if (this.spaceship) {
-      this.spaceship.drawSpaceship();
-      this.spaceship.drawBullets();
-      this.spaceship.checkBoundariesForBullets();
-
-      // Spaceship Shooting
-      if (currentTime > this.shootingStart + 100) {
-        this.shootingStart = Date.now();
-        this.spaceship.shoot();
-      }
-
       // Spaceship moving
       if (currentTime > this.moveStart + 10) {
         this.moveStart = Date.now();
         this.spaceship.move();
       }
+    }
+  }
 
+  drawAll() {
+    this.clear();
+    this.background.draw();
+    this.alienArmy.drawArmy();
+    this.alienArmy.drawBullets();
+    if (this.spaceship) {
+      this.spaceship.drawSpaceship();
+      this.spaceship.drawLives();
+      this.spaceship.drawBullets();
+    }
+    this.drawScore();
+    this.drawHighScore();
+  }
+
+  checkCollision() {
+    if (this.spaceship) {
       // Collision between bullets
       this.spaceship.checkCollisionWithBullets(this.alienArmy.aliensBullets);
 
@@ -138,19 +139,120 @@ class Game {
         this.spaceship.checkCollisionWithAliens(this.alienArmy.aliens);
       }
       this.alienArmy.checkCollisionWithSpaceship(this.spaceship);
+    }
+  }
+
+  checkBoundaries() {
+    // Alien Army
+    this.alienArmy.checkBoundariesForBullets();
+    // Spaceship
+    this.spaceship.checkBoundariesForBullets();
+  }
+
+  spaceshipShooting(currentTime) {
+    // Spaceship
+    if (this.spaceship) {
+      // Spaceship Shooting
+      if (currentTime > this.spaceshipShootingStart + 100) {
+        this.spaceshipShootingStart = Date.now();
+        this.spaceship.shoot();
       }
+    }
+  }
 
-    // Move
-    this.moveAll();
+  aliensShooting(currentTime) {
+    if (this.alienArmy.aliens.length > 0) {
+      if (currentTime > this.aliensShootingStart + 5000) {
+        this.aliensShootingStart = Date.now();
+        this.alienArmy.shoot();
+      }
+    }
+  }
 
-    this.intervalId = requestAnimationFrame(() => this.drawAll());
+  shooting(currentTime) {
+    this.spaceshipShooting(currentTime);
+    this.aliensShooting(currentTime);
+  }
+
+  runEveryFrame() {
+    const currentTime = Date.now();
+    this.drawAll();
+    this.checkCollision();
+    this.checkBoundaries();
+    this.shooting(currentTime);
+    this.moveAll(currentTime);
+    this.requestId = window.requestAnimationFrame(() => {
+      if (!this.lose && !this.win) {
+        this.runEveryFrame();
+      }
+    });
   }
 
   removeSpaceship() {
     this.spaceship = null;
   }
 
-  win() {}
-  lose() {}
+  hasWon() {
+    setTimeout(() => {
+      this.win = true;
+      this.drawEnd("win");
+    }, 200);
+  }
+  hasLost() {
+    this.lose = true;
+    // this.requestId = null;
+    this.drawEnd("lose");
+  }
+
+  drawEnd(result) {
+    if (result === "lose") {
+      this.ctx.fillRect(
+        this.canvas.width / 5,
+        this.canvas.height / 3,
+        (this.canvas.width / 5) * 3,
+        this.canvas.height / 3
+      );
+      // const myWidth = this.ctx.measureText("My text").width;
+
+      this.ctx.testBaseline = "middle";
+      this.ctx.font = "30px serif";
+      this.ctx.fillStyle = "red";
+      this.ctx.textAlign = "center";
+      this.ctx.fillText(
+        `You lost`,
+        this.canvas.width / 2,
+        this.canvas.height / 2
+      );
+      this.ctx.fillText(
+        `Score: ${this.score}`,
+        this.canvas.width / 2,
+        this.canvas.height / 2 + 40
+      );
+    }
+    if (result === "win") {
+      this.ctx.fillRect(
+        this.canvas.width / 5,
+        this.canvas.height / 3,
+        (this.canvas.width / 5) * 3,
+        this.canvas.height / 3
+      );
+      // const myWidth = this.ctx.measureText("My text").width;
+
+      this.ctx.testBaseline = "middle";
+      this.ctx.font = "30px serif";
+      this.ctx.fillStyle = "blue";
+      this.ctx.textAlign = "center";
+      this.ctx.fillText(
+        `You Won`,
+        this.canvas.width / 2,
+        this.canvas.height / 2
+      );
+      this.ctx.fillText(
+        `Score: ${this.score}`,
+        this.canvas.width / 2,
+        this.canvas.height / 2 + 40
+      );
+    }
+  }
   stage() {}
 }

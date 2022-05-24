@@ -10,10 +10,14 @@ class AlienArmy {
     this.aliens = [];
     this.aliensBullets = [];
     this.armyMoveSpeed = 1;
+    this.init();
+  }
+  init() {
+    this.makeAliens();
   }
   makeAliens() {
-    for (let i = 1; i < 8; i++) {
-      for (let j = 1; j < 8; j++) {
+    for (let i = 1; i < 2; i++) {
+      for (let j = 1; j < 2; j++) {
         const alien = new Alien(
           this.canvas,
           this.ctx,
@@ -27,6 +31,9 @@ class AlienArmy {
   }
   removeAlien(index) {
     this.aliens.splice(index, 1);
+    if (this.aliens.length < 1) {
+      this.game.hasWon();
+    }
   }
 
   drawArmy() {
@@ -38,11 +45,9 @@ class AlienArmy {
   }
 
   shoot() {
-    setInterval(() => {
-      this.aliens.forEach((alien) => {
-        alien.shoot();
-      });
-    }, 5000);
+    this.aliens.forEach((alien) => {
+      alien.shoot();
+    });
   }
 
   drawBullets() {
@@ -71,14 +76,13 @@ class AlienArmy {
 
   checkBoundariesForBullets() {
     this.aliensBullets.forEach((bullet, bulletIndex) => {
-      bullet.isAlienBulletOutside(bulletIndex)
+      bullet.isAlienBulletOutside(bulletIndex);
     });
   }
 
   removeAlienBullet(bulletIndex) {
     this.aliensBullets.splice(bulletIndex, 1);
   }
-
 
   move() {}
 }

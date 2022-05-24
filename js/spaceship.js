@@ -7,8 +7,9 @@ class Spaceship {
     this.width = 40;
     this.height = 40;
     this.x = canvas.width / 2 - this.width / 2;
-    this.y = canvas.height - this.height - 10;
+    this.y = canvas.height - this.height - 20;
     this.spaceshipMoveSpeed = 2;
+    this.lives = 2;
     this.bullets = [];
     this.ArrowRight = false;
     this.ArrowLeft = false;
@@ -18,7 +19,10 @@ class Spaceship {
 
   init() {
     this.image.src = "./images/spaceship.png";
-    this.image.addEventListener("load", () => this.drawSpaceship());
+    this.image.addEventListener("load", () => {
+      this.drawSpaceship();
+      this.drawLives();
+    });
   }
   drawSpaceship() {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -44,6 +48,30 @@ class Spaceship {
         this.game
       );
       this.bullets.push(newBullet);
+    }
+  }
+
+  trackLives(action) {
+    if (action === "lose") {
+      this.lives -= 1;
+    }
+    if (action === "earn") {
+      this.lives += 1;
+    }
+    if (this.lives === -1) {
+      console.log(this.game.lose);
+      this.game.hasLost();
+    }
+  }
+  drawLives() {
+    for (let i = 0; i < this.lives; i++) {
+      this.ctx.drawImage(
+        this.image,
+        5 + i * (this.width * 0.5),
+        this.canvas.height - 20,
+        this.width * 0.5,
+        this.height * 0.5
+      );
     }
   }
 
@@ -81,6 +109,9 @@ class Spaceship {
   }
 
   checkBoundariesForBullets() {
+    if (!this.game.spaceship) {
+      return;
+    }
     this.bullets.forEach((bullet, bulletIndex) => {
       bullet.isSpaceshipBulletOutside(bulletIndex);
     });
