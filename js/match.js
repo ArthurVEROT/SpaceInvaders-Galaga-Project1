@@ -9,7 +9,8 @@ class Match {
     this.alienArmy = null;
     this.score = 0;
 
-    this.aliensShootingStart = Date.now();
+    this.aliensLastShot = Date.now();
+    this.aliensShotPace = 1000;
 
     this.requestId = null;
     this.matchOn = false;
@@ -107,8 +108,8 @@ class Match {
 
   aliensShooting(currentTime) {
     if (this.alienArmy.aliens.length > 0) {
-      if (currentTime > this.aliensShootingStart + 500) {
-        this.aliensShootingStart = Date.now();
+      if (currentTime > this.aliensLastShot + this.aliensShotPace) {
+        this.aliensLastShot = Date.now();
         this.alienArmy.shoot();
       }
     }
