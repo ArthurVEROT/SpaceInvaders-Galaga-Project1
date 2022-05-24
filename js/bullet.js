@@ -34,7 +34,7 @@ class SpaceshipBullet extends Bullet {
     this.y -= this.moveSpeed;
   }
   draw() {
-    this.ctx.fillStyle = "red";
+    this.ctx.fillStyle = "blue";
     this.ctx.fillRect(this.x - this.width / 2, this.y, this.width, this.height);
   }
 
@@ -95,7 +95,12 @@ class AlienBullet extends Bullet {
   }
   draw() {
     this.ctx.fillStyle = "red";
-    this.ctx.fillRect(this.x - this.width / 2, this.y + this.height*1.5, this.width, this.height);
+    this.ctx.fillRect(
+      this.x - this.width / 2,
+      this.y + this.height * 1.5,
+      this.width,
+      this.height
+    );
   }
 
   // each bullet is responsible to check the collision

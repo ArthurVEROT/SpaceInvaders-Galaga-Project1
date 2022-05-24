@@ -85,7 +85,7 @@ class AlienArmy {
   }
 
   clearAmmunition() {
-    this.aliensBullets = []
+    this.aliensBullets = [];
   }
 
   move() {}

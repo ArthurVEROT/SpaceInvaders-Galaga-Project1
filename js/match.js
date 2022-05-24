@@ -9,7 +9,6 @@ class Match {
     this.alienArmy = null;
     this.score = 0;
 
-    this.spaceshipShootingStart = null;
     this.spaceshipMoveStart = null;
     this.aliensShootingStart = Date.now();
 
@@ -48,12 +47,9 @@ class Match {
         this.spaceship.move();
         this.spaceshipMoveStart = Date.now();
       }
+
       if (e.code === "Space") {
         this.spaceship.Space = true;
-        this.spaceship.shoot();
-        if (this.spaceshipShootingStart) {return}
-        this.spaceshipShootingStart = Date.now();
-        
       }
     });
     window.addEventListener("keyup", (e) => {
@@ -67,7 +63,6 @@ class Match {
       }
       if (e.code === "Space") {
         this.spaceship.Space = false;
-        this.spaceshipShootingStart = null;
       }
     });
   }
@@ -75,13 +70,14 @@ class Match {
   moveAll(currentTime) {
     this.background.move();
     this.alienArmy.moveBullets();
-    if (this.spaceship) {
-      this.spaceship.moveBullets();
-      // Spaceship moving
-      if (currentTime > this.spaceshipMoveStart + 5) {
-        this.spaceshipMoveStart = Date.now();
-        this.spaceship.move();
-      }
+    if (!this.spaceship) {
+      return;
+    }
+    this.spaceship.moveBullets();
+    // Spaceship moving
+    if (currentTime > this.spaceshipMoveStart + 5) {
+      this.spaceshipMoveStart = Date.now();
+      this.spaceship.move();
     }
   }
 
@@ -100,16 +96,17 @@ class Match {
   }
 
   checkCollision() {
-    if (this.spaceship) {
-      // Collision between bullets
-      this.spaceship.checkCollisionWithBullets(this.alienArmy.aliensBullets);
-
-      // Collision between bullets and ships
-      if (this.alienArmy.aliens.length > 0) {
-        this.spaceship.checkCollisionWithAliens(this.alienArmy.aliens);
-      }
-      this.alienArmy.checkCollisionWithSpaceship(this.spaceship);
+    if (!this.spaceship) {
+      return;
     }
+    // Collision between bullets
+    this.spaceship.checkCollisionWithBullets(this.alienArmy.aliensBullets);
+
+    // Collision between bullets and ships
+    if (this.alienArmy.aliens.length > 0) {
+      this.spaceship.checkCollisionWithAliens(this.alienArmy.aliens);
+    }
+    this.alienArmy.checkCollisionWithSpaceship(this.spaceship);
   }
 
   checkBoundaries() {
@@ -117,17 +114,6 @@ class Match {
     this.alienArmy.checkBoundariesForBullets();
     // Spaceship
     this.spaceship.checkBoundariesForBullets();
-  }
-
-  spaceshipShooting(currentTime) {
-    // Spaceship
-    if (this.spaceship) {
-      // Spaceship Shooting
-      if (currentTime > this.spaceshipShootingStart + 250) {
-        this.spaceshipShootingStart = Date.now();
-        this.spaceship.shoot();
-      }
-    }
   }
 
   aliensShooting(currentTime) {
@@ -140,7 +126,6 @@ class Match {
   }
 
   shooting(currentTime) {
-    this.spaceshipShooting(currentTime);
     this.aliensShooting(currentTime);
   }
 
@@ -166,6 +151,7 @@ class Match {
     this.checkBoundaries();
     this.shooting(currentTime);
     this.moveAll(currentTime);
+    this.spaceship.shoot();
     this.requestId = window.requestAnimationFrame(() => {
       this.runEveryFrame();
     });

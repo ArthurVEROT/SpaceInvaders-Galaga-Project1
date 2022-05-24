@@ -18,7 +18,7 @@ class Game {
   startMatch() {
     if (this.match) {
       this.restartMatch();
-      return
+      return;
     }
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");

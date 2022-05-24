@@ -14,6 +14,8 @@ class Spaceship {
     this.ArrowRight = false;
     this.ArrowLeft = false;
     this.Space = false;
+    this.shotPace = 200;
+    this.lastshot = Date.now();
     this.init();
   }
 
@@ -39,16 +41,21 @@ class Spaceship {
     }
   }
   shoot() {
-    if (this.Space === true) {
-      const newBullet = new SpaceshipBullet(
-        this.canvas,
-        this.ctx,
-        this.x + this.width / 2,
-        this.y,
-        this.match
-      );
-      this.bullets.push(newBullet);
+    if (!this.Space) {
+      return;
     }
+    if (Date.now() - this.lastshot < this.shotPace) {
+      return;
+    }
+    const newBullet = new SpaceshipBullet(
+      this.canvas,
+      this.ctx,
+      this.x + this.width / 2,
+      this.y,
+      this.match
+    );
+    this.bullets.push(newBullet);
+    this.lastshot = Date.now();
   }
 
   trackLives(action) {
@@ -123,6 +130,6 @@ class Spaceship {
   }
 
   clearAmmunition() {
-    this.bullets = []
+    this.bullets = [];
   }
 }
