@@ -1,6 +1,6 @@
 class Bullet {
-  constructor(canvas, ctx, x, y, game) {
-    this.game = game;
+  constructor(canvas, ctx, x, y, match) {
+    this.match = match;
     this.canvas = canvas;
     this.ctx = ctx;
     this.width = 5;
@@ -10,7 +10,7 @@ class Bullet {
     this.moveSpeed = 2;
   }
   draw() {
-    this.ctx.fillStyle = "white";
+    this.ctx.fillStyle = "red";
     this.ctx.fillRect(this.x - this.width / 2, this.y, this.width, this.height);
   }
   isBulletOutside() {
@@ -31,8 +31,8 @@ class Bullet {
 }
 
 class SpaceshipBullet extends Bullet {
-  constructor(canvas, ctx, x, y, game) {
-    super(canvas, ctx, x, y, game);
+  constructor(canvas, ctx, x, y, match) {
+    super(canvas, ctx, x, y, match);
   }
   move() {
     this.y -= this.moveSpeed;
@@ -52,9 +52,9 @@ class SpaceshipBullet extends Bullet {
         this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
 
       if (withinX && withinY) {
-        this.game.alienArmy.removeAlien(alienIndex);
-        this.game.spaceship.removeSpaceshipBullet(bulletIndex);
-        this.game.trackScoreAndHighScore();
+        this.match.alienArmy.removeAlien(alienIndex);
+        this.match.spaceship.removeSpaceshipBullet(bulletIndex);
+        this.match.trackScoreAndHighScore();
         return true;
       }
     });
@@ -73,22 +73,22 @@ class SpaceshipBullet extends Bullet {
         this.y < bulletFrontEdge && this.y + this.height > bulletRearEdge;
 
       if (withinX && withinY) {
-        this.game.spaceship.removeSpaceshipBullet(spaceshipBulletIndex);
-        this.game.alienArmy.removeAlienBullet(alienBulletIndex);
+        this.match.spaceship.removeSpaceshipBullet(spaceshipBulletIndex);
+        this.match.alienArmy.removeAlienBullet(alienBulletIndex);
       }
     });
   }
 
   isSpaceshipBulletOutside(bulletIndex) {
     if (this.isBulletOutside()) {
-      this.game.spaceship.removeSpaceshipBullet(bulletIndex);
+      this.match.spaceship.removeSpaceshipBullet(bulletIndex);
     }
   }
 }
 
 class AlienBullet extends Bullet {
-  constructor(canvas, ctx, x, y, game) {
-    super(canvas, ctx, x, y, game);
+  constructor(canvas, ctx, x, y, match) {
+    super(canvas, ctx, x, y, match);
   }
   move() {
     this.y += this.moveSpeed;
@@ -107,16 +107,15 @@ class AlienBullet extends Bullet {
       this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
 
     if (withinX && withinY) {
-      this.game.spaceship.trackLives("lose");
-      // this.game.removeSpaceship();
-      this.game.alienArmy.removeAlienBullet(bulletIndex);
+      this.match.spaceship.trackLives("lose");
+      this.match.alienArmy.removeAlienBullet(bulletIndex);
       return true;
     }
   }
 
   isAlienBulletOutside(bulletIndex) {
     if (this.isBulletOutside()) {
-      this.game.alienArmy.removeAlienBullet(bulletIndex);
+      this.match.alienArmy.removeAlienBullet(bulletIndex);
     }
   }
 }

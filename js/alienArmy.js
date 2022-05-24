@@ -1,6 +1,6 @@
 class AlienArmy {
-  constructor(canvas, ctx, x, y, game) {
-    this.game = game;
+  constructor(canvas, ctx, x, y, match) {
+    this.match = match;
     this.canvas = canvas;
     this.ctx = ctx;
     // this.width = 20;
@@ -23,7 +23,7 @@ class AlienArmy {
           this.ctx,
           i * 60,
           j * 20,
-          this.game
+          this.match
         );
         this.aliens.push(alien);
       }
@@ -32,7 +32,7 @@ class AlienArmy {
   removeAlien(index) {
     this.aliens.splice(index, 1);
     if (this.aliens.length < 1) {
-      this.game.hasWon();
+      this.match.hasWon();
     }
   }
 
@@ -82,6 +82,10 @@ class AlienArmy {
 
   removeAlienBullet(bulletIndex) {
     this.aliensBullets.splice(bulletIndex, 1);
+  }
+
+  clearAmmunition() {
+    this.aliensBullets = []
   }
 
   move() {}

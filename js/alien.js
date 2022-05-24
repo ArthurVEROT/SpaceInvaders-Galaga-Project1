@@ -1,6 +1,6 @@
 class Alien {
-  constructor(canvas, ctx, x, y, game) {
-    this.game = game;
+  constructor(canvas, ctx, x, y, match) {
+    this.match = match;
     this.canvas = canvas;
     this.ctx = ctx;
     this.image = new Image();
@@ -24,9 +24,9 @@ class Alien {
       this.ctx,
       this.x + this.width / 2,
       this.y,
-      this.game
+      this.match
     );
-    this.game.alienArmy.aliensBullets.push(newBullet);
+    this.match.alienArmy.aliensBullets.push(newBullet);
   }
 
   move() {}

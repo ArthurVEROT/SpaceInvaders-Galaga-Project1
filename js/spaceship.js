@@ -1,13 +1,13 @@
 class Spaceship {
-  constructor(canvas, ctx, game) {
-    this.game = game;
+  constructor(canvas, ctx, match) {
+    this.match = match;
     this.canvas = canvas;
     this.ctx = ctx;
     this.image = new Image();
     this.width = 40;
     this.height = 40;
-    this.x = canvas.width / 2 - this.width / 2;
-    this.y = canvas.height - this.height - 20;
+    this.x = this.canvas.width / 2 - this.width / 2;
+    this.y = this.canvas.height - this.height - 20;
     this.spaceshipMoveSpeed = 2;
     this.lives = 2;
     this.bullets = [];
@@ -20,11 +20,11 @@ class Spaceship {
   init() {
     this.image.src = "./images/spaceship.png";
     this.image.addEventListener("load", () => {
-      this.drawSpaceship();
+      this.draw();
       this.drawLives();
     });
   }
-  drawSpaceship() {
+  draw() {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 
@@ -45,7 +45,7 @@ class Spaceship {
         this.ctx,
         this.x + this.width / 2,
         this.y,
-        this.game
+        this.match
       );
       this.bullets.push(newBullet);
     }
@@ -54,13 +54,14 @@ class Spaceship {
   trackLives(action) {
     if (action === "lose") {
       this.lives -= 1;
+      this.match.newRound = true;
     }
     if (action === "earn") {
       this.lives += 1;
     }
     if (this.lives === -1) {
-      console.log(this.game.lose);
-      this.game.hasLost();
+      console.log(this.match.lose);
+      this.match.hasLost();
     }
   }
   drawLives() {
@@ -109,7 +110,7 @@ class Spaceship {
   }
 
   checkBoundariesForBullets() {
-    if (!this.game.spaceship) {
+    if (!this.match.spaceship) {
       return;
     }
     this.bullets.forEach((bullet, bulletIndex) => {
@@ -119,5 +120,9 @@ class Spaceship {
 
   removeSpaceshipBullet(bulletIndex) {
     this.bullets.splice(bulletIndex, 1);
+  }
+
+  clearAmmunition() {
+    this.bullets = []
   }
 }
