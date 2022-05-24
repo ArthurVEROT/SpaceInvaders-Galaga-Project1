@@ -37,11 +37,18 @@ class Match {
 
   createEventListeners() {
     window.addEventListener("keydown", (e) => {
+      console.log(e.code);
       if (e.code === "ArrowLeft") {
         this.spaceship.ArrowLeft = true;
       }
       if (e.code === "ArrowRight") {
         this.spaceship.ArrowRight = true;
+      }
+      if (e.code === "ArrowUp") {
+        this.spaceship.ArrowUp = true;
+      }
+      if (e.code === "ArrowDown") {
+        this.spaceship.ArrowDown = true;
       }
 
       if (e.code === "Space") {
@@ -55,13 +62,19 @@ class Match {
       if (e.code === "ArrowRight") {
         this.spaceship.ArrowRight = false;
       }
+      if (e.code === "ArrowUp") {
+        this.spaceship.ArrowUp = false;
+      }
+      if (e.code === "ArrowDown") {
+        this.spaceship.ArrowDown = false;
+      }
       if (e.code === "Space") {
         this.spaceship.Space = false;
       }
     });
   }
 
-  moveAll(currentTime) {
+  moveAll() {
     this.background.move();
     this.alienArmy.moveBullets();
     if (!this.spaceship) {
@@ -115,10 +128,6 @@ class Match {
     }
   }
 
-  shooting(currentTime) {
-    this.aliensShooting(currentTime);
-  }
-
   ///////// RUN EVERY FRAME //////////
   runEveryFrame() {
     if (this.lose || this.win) {
@@ -139,8 +148,8 @@ class Match {
     this.drawAll();
     this.checkCollision();
     this.checkBoundaries();
-    this.shooting(currentTime);
-    this.moveAll(currentTime);
+    this.aliensShooting(currentTime);
+    this.moveAll();
     this.spaceship.shoot();
     this.requestId = window.requestAnimationFrame(() => {
       this.runEveryFrame();
@@ -210,7 +219,7 @@ class Match {
     }
     if (result === "win") {
       this.ctx.fillText(
-        `You Won`,
+        `You win`,
         this.canvas.width / 2,
         this.canvas.height / 2
       );

@@ -8,11 +8,13 @@ class Spaceship {
     this.height = 40;
     this.x = this.canvas.width / 2 - this.width / 2;
     this.y = this.canvas.height - this.height - 20;
-    this.spaceshipMoveSpeed = 3;
+    this.spaceshipSpeed = 2;
     this.lives = 2;
     this.bullets = [];
     this.ArrowRight = false;
     this.ArrowLeft = false;
+    this.ArrowUp = false;
+    this.ArrowDown = false;
     this.Space = false;
     this.shotPace = 200;
     this.lastshot = Date.now();
@@ -33,11 +35,19 @@ class Spaceship {
   move() {
     if (this.ArrowLeft === true) {
       if (this.x < this.width / 2) return;
-      this.x -= this.spaceshipMoveSpeed;
+      this.x -= this.spaceshipSpeed;
     }
     if (this.ArrowRight === true) {
       if (this.x > this.canvas.width - this.width * 1.5) return;
-      this.x += this.spaceshipMoveSpeed;
+      this.x += this.spaceshipSpeed;
+    }
+    if (this.ArrowUp === true) {
+      if (this.y < 0) return;
+      this.y -= this.spaceshipSpeed;
+    }
+    if (this.ArrowDown === true) {
+      if (this.y + this.height > this.canvas.height - 20) return;
+      this.y += this.spaceshipSpeed;
     }
   }
   shoot() {

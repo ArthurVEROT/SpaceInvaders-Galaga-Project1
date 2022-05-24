@@ -7,7 +7,7 @@ class Bullet {
     this.height = 5;
     this.x = x;
     this.y = y;
-    this.moveSpeed = 3;
+    this.speed = 4;
   }
   isBulletOutside() {
     if (this.x > this.canvas.width) {
@@ -31,7 +31,7 @@ class SpaceshipBullet extends Bullet {
     super(canvas, ctx, x, y, match);
   }
   move() {
-    this.y -= this.moveSpeed;
+    this.y -= this.speed;
   }
   draw() {
     this.ctx.fillStyle = "blue";
@@ -91,7 +91,7 @@ class AlienBullet extends Bullet {
     super(canvas, ctx, x, y, match);
   }
   move() {
-    this.y += this.moveSpeed;
+    this.y += this.speed;
   }
   draw() {
     this.ctx.fillStyle = "red";
