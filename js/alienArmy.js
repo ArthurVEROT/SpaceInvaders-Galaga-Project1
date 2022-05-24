@@ -10,6 +10,8 @@ class AlienArmy {
     this.aliens = [];
     this.aliensBullets = [];
     this.armyMoveSpeed = 1;
+    this.lastShot = Date.now();
+    this.shotPace = 1000;
     this.init();
   }
   init() {
@@ -29,12 +31,6 @@ class AlienArmy {
       }
     }
   }
-  removeAlien(index) {
-    this.aliens.splice(index, 1);
-    if (this.aliens.length < 1) {
-      this.match.hasWon();
-    }
-  }
 
   drawArmy() {
     if (this.aliens.length > 0) {
@@ -44,10 +40,21 @@ class AlienArmy {
     }
   }
 
+  removeAlien(index) {
+    this.aliens.splice(index, 1);
+    if (this.aliens.length < 1) {
+      this.match.hasWon();
+    }
+  }
+
   shoot() {
+    if (Date.now() - this.lastshot < this.shotPace) {
+      return;
+    }
     this.aliens.forEach((alien) => {
       alien.shoot();
     });
+    this.lastshot = Date.now();
   }
 
   drawBullets() {

@@ -8,7 +8,7 @@ class Spaceship {
     this.height = 40;
     this.x = this.canvas.width / 2 - this.width / 2;
     this.y = this.canvas.height - this.height - 20;
-    this.spaceshipSpeed = 2;
+    this.spaceshipSpeed = 3;
     this.lives = 2;
     this.bullets = [];
     this.ArrowRight = false;
@@ -38,7 +38,7 @@ class Spaceship {
       this.x -= this.spaceshipSpeed;
     }
     if (this.ArrowRight === true) {
-      if (this.x > this.canvas.width - this.width * 1.5) return;
+      if (this.x > this.canvas.width - this.width * 1.25) return;
       this.x += this.spaceshipSpeed;
     }
     if (this.ArrowUp === true) {

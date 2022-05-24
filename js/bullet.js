@@ -7,7 +7,7 @@ class Bullet {
     this.height = 5;
     this.x = x;
     this.y = y;
-    this.speed = 4;
+    this.speed = 5;
   }
   isBulletOutside() {
     if (this.x > this.canvas.width) {

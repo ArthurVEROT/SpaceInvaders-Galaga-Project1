@@ -9,9 +9,6 @@ class Match {
     this.alienArmy = null;
     this.score = 0;
 
-    this.aliensLastShot = Date.now();
-    this.aliensShotPace = 1000;
-
     this.requestId = null;
     this.matchOn = false;
     this.lose = false;
@@ -119,12 +116,12 @@ class Match {
     this.spaceship.checkBoundariesForBullets();
   }
 
-  aliensShooting(currentTime) {
-    if (this.alienArmy.aliens.length > 0) {
-      if (currentTime > this.aliensLastShot + this.aliensShotPace) {
-        this.aliensLastShot = Date.now();
-        this.alienArmy.shoot();
-      }
+  shootAll() {
+    if (this.spaceship) {
+      this.spaceship.shoot();
+    }
+    if (this.alienArmy) {
+      this.alienArmy.shoot();
     }
   }
 
@@ -144,16 +141,18 @@ class Match {
       return;
     }
 
-    const currentTime = Date.now();
     this.drawAll();
     this.checkCollision();
     this.checkBoundaries();
-    this.aliensShooting(currentTime);
     this.moveAll();
-    this.spaceship.shoot();
+    this.shootAll();
     this.requestId = window.requestAnimationFrame(() => {
       this.runEveryFrame();
     });
+  }
+  
+  trackScore() {
+    this.score += 1;
   }
 
   drawScore() {
@@ -172,9 +171,7 @@ class Match {
     );
   }
 
-  trackScore() {
-    this.score += 1;
-  }
+
 
   // When your spaceship is hit by a bullet, it freeze, all the bullets disappear and you lose a life
   startNewRound() {
