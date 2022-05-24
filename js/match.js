@@ -34,7 +34,6 @@ class Match {
 
   createEventListeners() {
     window.addEventListener("keydown", (e) => {
-      console.log(e.code);
       if (e.code === "ArrowLeft") {
         this.spaceship.ArrowLeft = true;
       }
@@ -150,7 +149,7 @@ class Match {
       this.runEveryFrame();
     });
   }
-  
+
   trackScore() {
     this.score += 1;
   }

@@ -7,7 +7,6 @@ class Bullet {
     this.height = 5;
     this.x = x;
     this.y = y;
-    this.speed = 5;
   }
   isBulletOutside() {
     if (this.x > this.canvas.width) {
@@ -29,6 +28,7 @@ class Bullet {
 class SpaceshipBullet extends Bullet {
   constructor(canvas, ctx, x, y, match) {
     super(canvas, ctx, x, y, match);
+    this.speed = 5
   }
   move() {
     this.y -= this.speed;
@@ -40,23 +40,25 @@ class SpaceshipBullet extends Bullet {
 
   // each bullet is responsible to check the collision
   checkCollisionWithAlien(aliens, bulletIndex) {
-    aliens.forEach((alien, alienIndex) => {
-      const alienFrontEdge = alien.y + alien.height;
-      const alienRearEdge = alien.y;
-      const alienLeftEdge = alien.x;
-      const alienRightEdge = alien.x + alien.width;
+    aliens.forEach((row, rowIndex) => {
+      row.forEach((alien, alienIndex) => {
+        const alienFrontEdge = alien.y + alien.height;
+        const alienRearEdge = alien.y;
+        const alienLeftEdge = alien.x;
+        const alienRightEdge = alien.x + alien.width;
 
-      const withinX =
-        this.x < alienRightEdge && this.x + this.width > alienLeftEdge;
-      const withinY =
-        this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
+        const withinX =
+          this.x < alienRightEdge && this.x + this.width > alienLeftEdge;
+        const withinY =
+          this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
 
-      if (withinX && withinY) {
-        this.match.alienArmy.removeAlien(alienIndex);
-        this.match.spaceship.removeSpaceshipBullet(bulletIndex);
-        this.match.trackScore();
-        return true;
-      }
+        if (withinX && withinY) {
+          this.match.alienArmy.removeAlien(rowIndex, alienIndex);
+          this.match.spaceship.removeSpaceshipBullet(bulletIndex);
+          this.match.trackScore();
+          return true;
+        }
+      });
     });
   }
 
@@ -89,6 +91,7 @@ class SpaceshipBullet extends Bullet {
 class AlienBullet extends Bullet {
   constructor(canvas, ctx, x, y, match) {
     super(canvas, ctx, x, y, match);
+    this.speed = 4;
   }
   move() {
     this.y += this.speed;
