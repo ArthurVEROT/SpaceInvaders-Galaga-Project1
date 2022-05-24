@@ -43,7 +43,6 @@ class Spaceship {
   }
 
   drawBullets() {
-    console.log("this.bullets.length", this.bullets.length);
     if (!this.bullets.length > 0) {
       return;
     }
@@ -61,9 +60,21 @@ class Spaceship {
     });
   }
 
-  checkCollisionOnEachBullets(aliens) {
+  checkCollisionWithAliens(aliens) {
     this.bullets.forEach((bullet, bulletIndex) => {
       bullet.checkCollisionWithAlien(aliens, bulletIndex);
+    });
+  }
+
+  checkCollisionWithBullets(aliensBullets) {
+    this.bullets.forEach((bullet, spaceshipBulletIndex) => {
+      bullet.checkCollisionWithAliensBullets(aliensBullets, spaceshipBulletIndex)
+    });
+  }
+
+  checkBoundariesForBullets() {
+    this.bullets.forEach((bullet, bulletIndex) => {
+      bullet.isSpaceshipBulletOutside(bulletIndex)
     });
   }
 

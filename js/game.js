@@ -32,7 +32,7 @@ class Game {
     );
     this.spaceship = new Spaceship(this.canvas, this.ctx, this);
     this.alienArmy = new AlienArmy(this.canvas, this.ctx, 100, 100, this);
-    this.alienArmy.makeAlien();
+    this.alienArmy.makeAliens();
     this.alienArmy.shoot();
 
     this.drawAll();
@@ -66,20 +66,24 @@ class Game {
     this.clear();
     this.background.draw();
 
-    // Army
+    // Alien Army
     this.alienArmy.drawArmy();
     this.alienArmy.drawBullets();
+    this.alienArmy.checkBoundariesForBullets();
 
     // Spaceship
     if (this.spaceship) {
       this.spaceship.drawSpaceship();
       this.spaceship.drawBullets();
+      this.spaceship.checkBoundariesForBullets();
+      // Collision between bullets
+      this.spaceship.checkCollisionWithBullets(this.alienArmy.aliensBullets);
 
-      // Collision
+      // Collision between bullets and ships
       if (this.alienArmy.aliens.length > 0) {
-        this.spaceship.checkCollisionOnEachBullets(this.alienArmy.aliens);
+        this.spaceship.checkCollisionWithAliens(this.alienArmy.aliens);
       }
-      this.alienArmy.checkCollisionOnEachBullets(this.spaceship);
+      this.alienArmy.checkCollisionWithSpaceship(this.spaceship);
     }
 
     // Move

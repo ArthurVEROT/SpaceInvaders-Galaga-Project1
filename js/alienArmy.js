@@ -11,7 +11,7 @@ class AlienArmy {
     this.aliensBullets = [];
     this.armyMoveSpeed = 1;
   }
-  makeAlien() {
+  makeAliens() {
     for (let i = 1; i < 8; i++) {
       for (let j = 1; j < 8; j++) {
         const alien = new Alien(
@@ -63,16 +63,22 @@ class AlienArmy {
     });
   }
 
-  checkCollisionOnEachBullets(spaceship) {
+  checkCollisionWithSpaceship(spaceship) {
     this.aliensBullets.forEach((bullet, bulletIndex) => {
       bullet.checkCollisionWithSpaceship(spaceship, bulletIndex);
     });
   }
 
+  checkBoundariesForBullets() {
+    this.aliensBullets.forEach((bullet, bulletIndex) => {
+      bullet.isAlienBulletOutside(bulletIndex)
+    });
+  }
+
   removeAlienBullet(bulletIndex) {
-    console.log("bulletIndex", bulletIndex);
     this.aliensBullets.splice(bulletIndex, 1);
   }
+
 
   move() {}
 }

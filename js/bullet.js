@@ -13,6 +13,21 @@ class Bullet {
     this.ctx.fillStyle = "white";
     this.ctx.fillRect(this.x, this.y, this.width, this.height);
   }
+  isBulletOutside() {
+    if(this.x > this.canvas.width) {
+      return true
+    }
+    if (this.y > this.canvas.height) {
+      return true
+    }
+    if (this.y < 0) {
+      return true
+    }
+    if (this.x < 0) {
+      return true
+    }
+    return false
+  }
 }
 
 class SpaceshipBullet extends Bullet {
@@ -43,6 +58,32 @@ class SpaceshipBullet extends Bullet {
       }
     });
   }
+
+  checkCollisionWithAliensBullets(aliensBullets, spaceshipBulletIndex) {
+    aliensBullets.forEach((bullet, alienBulletIndex) => {
+      const bulletFrontEdge = bullet.y + bullet.height;
+      const bulletRearEdge = bullet.y;
+      const bulletLeftEdge = bullet.x;
+      const bulletRightEdge = bullet.x + bullet.width;
+
+      const withinX =
+        this.x < bulletRightEdge && this.x + this.width > bulletLeftEdge;
+      const withinY =
+        this.y < bulletFrontEdge && this.y + this.height > bulletRearEdge;
+
+      if (withinX && withinY) {
+        this.game.spaceship.removeSpaceshipBullet(spaceshipBulletIndex);
+        this.game.alienArmy.removeAlienBullet(alienBulletIndex);
+      }
+    });
+  }
+
+
+  isSpaceshipBulletOutside(bulletIndex) {
+    if (this.isBulletOutside()) {
+      this.game.spaceship.removeSpaceshipBullet(bulletIndex)
+    }
+  }
 }
 
 class AlienBullet extends Bullet {
@@ -69,6 +110,12 @@ class AlienBullet extends Bullet {
       this.game.removeSpaceship();
       this.game.alienArmy.removeAlienBullet(bulletIndex);
       return true;
+    }
+  }
+
+  isAlienBulletOutside(bulletIndex) {
+    if (this.isBulletOutside()) {
+      this.game.alienArmy.removeAlienBullet(bulletIndex)
     }
   }
 }
