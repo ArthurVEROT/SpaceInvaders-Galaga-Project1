@@ -9,7 +9,6 @@ class Match {
     this.alienArmy = null;
     this.score = 0;
 
-    this.spaceshipMoveStart = null;
     this.aliensShootingStart = Date.now();
 
     this.requestId = null;
@@ -39,13 +38,9 @@ class Match {
     window.addEventListener("keydown", (e) => {
       if (e.code === "ArrowLeft") {
         this.spaceship.ArrowLeft = true;
-        this.spaceship.move();
-        this.spaceshipMoveStart = Date.now();
       }
       if (e.code === "ArrowRight") {
         this.spaceship.ArrowRight = true;
-        this.spaceship.move();
-        this.spaceshipMoveStart = Date.now();
       }
 
       if (e.code === "Space") {
@@ -55,11 +50,9 @@ class Match {
     window.addEventListener("keyup", (e) => {
       if (e.code === "ArrowLeft") {
         this.spaceship.ArrowLeft = false;
-        this.spaceshipMoveStart = null;
       }
       if (e.code === "ArrowRight") {
         this.spaceship.ArrowRight = false;
-        this.spaceshipMoveStart = null;
       }
       if (e.code === "Space") {
         this.spaceship.Space = false;
@@ -74,11 +67,7 @@ class Match {
       return;
     }
     this.spaceship.moveBullets();
-    // Spaceship moving
-    if (currentTime > this.spaceshipMoveStart + 5) {
-      this.spaceshipMoveStart = Date.now();
-      this.spaceship.move();
-    }
+    this.spaceship.move();
   }
 
   drawAll() {
