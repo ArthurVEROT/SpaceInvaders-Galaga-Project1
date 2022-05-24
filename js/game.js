@@ -32,7 +32,6 @@ class Game {
   restartMatch() {
     this.match.stopAnimationFrame = true;
     setTimeout(() => {
-      console.log("timeout launched");
       this.clearCanvas();
       this.match = null;
       this.startMatch();

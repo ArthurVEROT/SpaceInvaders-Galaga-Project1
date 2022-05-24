@@ -51,7 +51,9 @@ class Match {
       if (e.code === "Space") {
         this.spaceship.Space = true;
         this.spaceship.shoot();
+        if (this.spaceshipShootingStart) {return}
         this.spaceshipShootingStart = Date.now();
+        
       }
     });
     window.addEventListener("keyup", (e) => {
@@ -76,7 +78,7 @@ class Match {
     if (this.spaceship) {
       this.spaceship.moveBullets();
       // Spaceship moving
-      if (currentTime > this.spaceshipMoveStart + 10) {
+      if (currentTime > this.spaceshipMoveStart + 5) {
         this.spaceshipMoveStart = Date.now();
         this.spaceship.move();
       }
@@ -121,7 +123,7 @@ class Match {
     // Spaceship
     if (this.spaceship) {
       // Spaceship Shooting
-      if (currentTime > this.spaceshipShootingStart + 100) {
+      if (currentTime > this.spaceshipShootingStart + 250) {
         this.spaceshipShootingStart = Date.now();
         this.spaceship.shoot();
       }
@@ -170,16 +172,23 @@ class Match {
   }
 
   drawScore() {
-    this.ctx.font = "16px serif";
+    this.ctx.font = "16px sansserif";
     this.ctx.fillStyle = "white";
     this.ctx.fillText(`Score: ${this.score}`, 5, 20);
   }
 
-  trackScoreAndHighScore() {
+  drawHighScore() {
+    this.ctx.font = "16px sansserif";
+    this.ctx.fillStyle = "white";
+    this.ctx.fillText(
+      `High score: ${this.game.highScore}`,
+      this.canvas.width - 100,
+      20
+    );
+  }
+
+  trackScore() {
     this.score += 1;
-    if (this.highScore <= this.score) {
-      this.highScore = this.score;
-    }
   }
 
   // When your spaceship is hit by a bullet, it freeze, all the bullets disappear and you lose a life
@@ -240,15 +249,5 @@ class Match {
   clearBullets() {
     this.alienArmy.clearAmmunition();
     this.spaceship.clearAmmunition();
-  }
-
-  drawHighScore() {
-    this.ctx.font = "16px serif";
-    this.ctx.fillStyle = "white";
-    this.ctx.fillText(
-      `High score: ${this.game.highScore}`,
-      this.canvas.width - 100,
-      20
-    );
   }
 }

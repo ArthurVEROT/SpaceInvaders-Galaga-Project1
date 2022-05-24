@@ -7,11 +7,7 @@ class Bullet {
     this.height = 5;
     this.x = x;
     this.y = y;
-    this.moveSpeed = 2;
-  }
-  draw() {
-    this.ctx.fillStyle = "red";
-    this.ctx.fillRect(this.x - this.width / 2, this.y, this.width, this.height);
+    this.moveSpeed = 3;
   }
   isBulletOutside() {
     if (this.x > this.canvas.width) {
@@ -37,6 +33,10 @@ class SpaceshipBullet extends Bullet {
   move() {
     this.y -= this.moveSpeed;
   }
+  draw() {
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(this.x - this.width / 2, this.y, this.width, this.height);
+  }
 
   // each bullet is responsible to check the collision
   checkCollisionWithAlien(aliens, bulletIndex) {
@@ -54,7 +54,7 @@ class SpaceshipBullet extends Bullet {
       if (withinX && withinY) {
         this.match.alienArmy.removeAlien(alienIndex);
         this.match.spaceship.removeSpaceshipBullet(bulletIndex);
-        this.match.trackScoreAndHighScore();
+        this.match.trackScore();
         return true;
       }
     });
@@ -92,6 +92,10 @@ class AlienBullet extends Bullet {
   }
   move() {
     this.y += this.moveSpeed;
+  }
+  draw() {
+    this.ctx.fillStyle = "red";
+    this.ctx.fillRect(this.x - this.width / 2, this.y + this.height*1.5, this.width, this.height);
   }
 
   // each bullet is responsible to check the collision
