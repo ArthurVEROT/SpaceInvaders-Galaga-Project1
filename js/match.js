@@ -113,6 +113,7 @@ class Match {
     if (this.alienArmy.aliens.length > 0) {
       this.spaceship.checkCollisionWithAliens(this.alienArmy.aliens);
     }
+    this.alienArmy.checkBulletCollisionWithSpaceship(this.spaceship);
     this.alienArmy.checkCollisionWithSpaceship(this.spaceship);
   }
 

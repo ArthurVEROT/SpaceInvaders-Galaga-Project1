@@ -122,9 +122,17 @@ class AlienArmy {
     });
   }
 
-  checkCollisionWithSpaceship(spaceship) {
+  checkBulletCollisionWithSpaceship(spaceship) {
     this.aliensBullets.forEach((bullet, bulletIndex) => {
       bullet.checkCollisionWithSpaceship(spaceship, bulletIndex);
+    });
+  }
+
+  checkCollisionWithSpaceship(spaceship) {
+    this.aliens.forEach((row, rowIndex) => {
+      row.forEach((alien, alienIndex) => {
+        alien.checkCollisionWithSpaceship(spaceship, rowIndex, alienIndex);
+      });
     });
   }
 
@@ -182,12 +190,12 @@ class AlienArmy {
       row.forEach((alien) => {
         if (alien.x > this.canvas.width - alien.width * 1.25) {
           console.log(alien.x);
-          console.log('collision with right edge');
+          console.log("collision with right edge");
           this.moveDirection = "left";
           this.downMove();
         }
-        if (alien.x < alien.width/2) {
-          console.log('collision with left edge');
+        if (alien.x < alien.width / 2) {
+          console.log("collision with left edge");
           this.moveDirection = "right";
           this.downMove();
         }

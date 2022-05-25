@@ -28,7 +28,7 @@ class Bullet {
 class SpaceshipBullet extends Bullet {
   constructor(canvas, ctx, x, y, match) {
     super(canvas, ctx, x, y, match);
-    this.speed = 5
+    this.speed = 5;
   }
   move() {
     this.y -= this.speed;
@@ -53,7 +53,7 @@ class SpaceshipBullet extends Bullet {
           this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
 
         if (withinX && withinY) {
-          this.match.playInvaderKilledSound()
+          this.match.playInvaderKilledSound();
           this.match.alienArmy.removeAlien(rowIndex, alienIndex);
           this.match.spaceship.removeSpaceshipBullet(bulletIndex);
           this.match.trackScore();

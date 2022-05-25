@@ -29,5 +29,23 @@ class Alien {
     this.match.alienArmy.aliensBullets.push(newBullet);
   }
 
+  checkCollisionWithSpaceship(spaceship, rowIndex, alienIndex) {
+    const alienFrontEdge = spaceship.y + spaceship.height;
+    const alienRearEdge = spaceship.y;
+    const alienLeftEdge = spaceship.x;
+    const alienRightEdge = spaceship.x + spaceship.width;
+
+    const withinX =
+      this.x < alienRightEdge && this.x + this.width > alienLeftEdge;
+    const withinY =
+      this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
+
+    if (withinX && withinY) {
+      this.match.spaceship.trackLives("lose");
+      this.match.alienArmy.removeAlien(rowIndex, alienIndex);
+      return true;
+    }
+  }
+
   move() {}
 }
