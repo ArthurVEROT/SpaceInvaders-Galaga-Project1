@@ -9,7 +9,7 @@ class AlienArmy {
 
     this.rowNumber = 6;
     this.colNumber = 6;
-    
+
     this.rowGap = 10;
     this.colGap = 55;
 
@@ -28,6 +28,11 @@ class AlienArmy {
     this.armyMoveSpeed = 1;
     this.lastShot = Date.now();
     this.shotPace = 4000;
+
+    this.lastMove = Date.now();
+    this.movePace = 250;
+    this.moveSpeed = 10;
+    this.moveDirection = "right";
     this.init();
   }
   init() {
@@ -47,8 +52,8 @@ class AlienArmy {
     const thisYTemp = this.y;
     const xIncrement = this.colGap + this.alien.width;
     const yIncrement = this.rowGap + this.alien.height;
-    const xMax = this.width + thisXTemp
-    const yMax = this.height + thisYTemp
+    const xMax = this.width + thisXTemp;
+    const yMax = this.height + thisYTemp;
 
     for (; this.y < yMax; this.y = this.y + yIncrement) {
       const row = [];
@@ -137,5 +142,50 @@ class AlienArmy {
     this.aliensBullets = [];
   }
 
-  move() {}
+  sideMove() {
+    // Do we move
+    if (Date.now() - this.lastMove < this.movePace) {
+      return;
+    }
+    this.checkArmyColision();
+    // Move right
+    if (this.moveDirection === "right") {
+      this.aliens.forEach((row) => {
+        row.forEach((alien) => {
+          alien.x += this.moveSpeed;
+        });
+      });
+      this.lastMove = Date.now();
+    }
+
+    // Move left
+    if (this.moveDirection === "left") {
+      this.aliens.forEach((row) => {
+        row.forEach((alien) => {
+          alien.x -= this.moveSpeed;
+        });
+      });
+      this.lastMove = Date.now();
+    }
+  }
+
+  downMove() {
+    this.aliens.forEach((row) => {
+      row.forEach((alien) => {
+        alien.y += this.moveSpeed;
+      });
+    });
+  }
+
+  checkArmyColision() {
+    if (this.aliens[0][0].x > this.canvas.width - this.width) {
+      this.moveDirection = "left";
+      this.downMove();
+    }
+    // Move right
+    if (this.aliens[0][0].x < 10) {
+      this.moveDirection = "right";
+      this.downMove();
+    }
+  }
 }

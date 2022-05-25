@@ -73,6 +73,7 @@ class Match {
   moveAll() {
     this.background.move();
     this.alienArmy.moveBullets();
+    this.alienArmy.sideMove();
     if (!this.spaceship) {
       return;
     }
