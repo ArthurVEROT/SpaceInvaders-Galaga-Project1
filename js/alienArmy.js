@@ -4,7 +4,7 @@ class AlienArmy {
     this.canvas = canvas;
     this.ctx = ctx;
 
-    this.x = null;
+    this.x = 0;
     this.y = 20;
 
     this.rowNumber = 6;
@@ -172,20 +172,26 @@ class AlienArmy {
   downMove() {
     this.aliens.forEach((row) => {
       row.forEach((alien) => {
-        alien.y += this.moveSpeed;
+        alien.y += 4;
       });
     });
   }
 
   checkArmyColision() {
-    if (this.aliens[0][0].x > this.canvas.width - this.width) {
-      this.moveDirection = "left";
-      this.downMove();
-    }
-    // Move right
-    if (this.aliens[0][0].x < 10) {
-      this.moveDirection = "right";
-      this.downMove();
-    }
+    this.aliens.forEach((row) => {
+      row.forEach((alien) => {
+        if (alien.x > this.canvas.width - alien.width * 1.25) {
+          console.log(alien.x);
+          console.log('collision with right edge');
+          this.moveDirection = "left";
+          this.downMove();
+        }
+        if (alien.x < alien.width/2) {
+          console.log('collision with left edge');
+          this.moveDirection = "right";
+          this.downMove();
+        }
+      });
+    });
   }
 }

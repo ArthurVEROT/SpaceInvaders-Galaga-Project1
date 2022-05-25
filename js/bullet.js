@@ -53,6 +53,7 @@ class SpaceshipBullet extends Bullet {
           this.y < alienFrontEdge && this.y + this.height > alienRearEdge;
 
         if (withinX && withinY) {
+          this.match.playInvaderKilledSound()
           this.match.alienArmy.removeAlien(rowIndex, alienIndex);
           this.match.spaceship.removeSpaceshipBullet(bulletIndex);
           this.match.trackScore();

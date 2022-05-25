@@ -31,6 +31,7 @@ class Game {
 
   restartMatch() {
     this.match.stopAnimationFrame = true;
+    this.match.stopAllSounds();
     setTimeout(() => {
       this.clearCanvas();
       this.match = null;
@@ -43,5 +44,6 @@ class Game {
       this.highScore = this.score;
     }
   }
+
   stage() {}
 }

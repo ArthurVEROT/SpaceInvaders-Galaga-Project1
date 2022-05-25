@@ -66,11 +66,13 @@ class Spaceship {
     );
     this.bullets.push(newBullet);
     this.lastshot = Date.now();
+    this.match.playShootingSound();
   }
 
   trackLives(action) {
     if (action === "lose") {
       this.lives -= 1;
+      this.match.playExplosionSound();
       this.match.newRound = true;
     }
     if (action === "earn") {

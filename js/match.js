@@ -15,11 +15,18 @@ class Match {
     this.win = false;
     this.newRound = false;
     this.stopAnimationFrame = false;
+
+    this.soundEffectVolume = 0.2;
+    this.backgroundMusic = new Audio("./sounds/spaceinvaders1.mpeg");
+    this.invaderKilledSound = new Audio("./sounds/invaderKilled.wav");
+    this.shootingSound = new Audio("./sounds/shoot.wav");
+    this.explosionSound = new Audio("./sounds/explosion.wav");
     this.init();
   }
 
   init() {
     this.matchOn = true;
+    this.playBackgroundMusic();
     this.background = new Background(
       this.canvas,
       this.ctx,
@@ -184,6 +191,7 @@ class Match {
     setTimeout(() => {
       this.win = true;
       this.drawEnd("win");
+      this.stopAllSounds();
     }, 200);
   }
   hasLost() {
@@ -229,5 +237,32 @@ class Match {
   clearBullets() {
     this.alienArmy.clearAmmunition();
     this.spaceship.clearAmmunition();
+  }
+
+  ///////// SOUNDS ///////////
+  playBackgroundMusic() {
+    this.backgroundMusic.play();
+  }
+
+  playInvaderKilledSound() {
+    this.invaderKilledSound.pause();
+    this.invaderKilledSound.currentTime = 0;
+    this.invaderKilledSound.volume = this.soundEffectVolume;
+    this.invaderKilledSound.play();
+  }
+  playShootingSound() {
+    this.shootingSound.pause();
+    this.shootingSound.currentTime = 0;
+    this.shootingSound.volume = this.soundEffectVolume;
+    this.shootingSound.play();
+  }
+  playExplosionSound() {
+    this.explosionSound.pause();
+    this.explosionSound.volume = this.soundEffectVolume;
+    this.explosionSound.play();
+  }
+
+  stopAllSounds() {
+    this.backgroundMusic.pause();
   }
 }
