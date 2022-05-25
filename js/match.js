@@ -135,10 +135,10 @@ class Match {
 
   ///////// RUN EVERY FRAME //////////
   runEveryFrame() {
-    if (this.lose || this.win) {
-      cancelAnimationFrame(this.requestId);
-      return;
-    }
+    // if (this.lose || this.win) {
+    //   cancelAnimationFrame(this.requestId);
+    //   return;
+    // }
     if (this.newRound) {
       cancelAnimationFrame(this.requestId);
       this.startNewRound();
@@ -164,19 +164,22 @@ class Match {
   }
 
   drawScore() {
-    this.ctx.font = "16px sansserif";
+    this.ctx.font = "1rem serious1, sans-serif";
     this.ctx.fillStyle = "white";
     this.ctx.fillText(`Score: ${this.score}`, 5, 20);
   }
 
   drawHighScore() {
-    this.ctx.font = "16px sansserif";
+    this.ctx.font = "1rem serious1, sans-serif";
     this.ctx.fillStyle = "white";
+    console.log("this.ctx.fillText", this.ctx.fillText);
+    console.log("this.canvas.width", this.canvas.width);
     this.ctx.fillText(
       `High score: ${this.game.highScore}`,
-      this.canvas.width - 100,
+      this.canvas.width - 125,
       20
     );
+    console.log('this.ctx.fillText.x', this.ctx.fillText.x);
   }
 
   // When your spaceship is hit by a bullet, it freeze, all the bullets disappear and you lose a life
@@ -191,14 +194,16 @@ class Match {
   hasWon() {
     setTimeout(() => {
       this.win = true;
+      this.stopAnimationFrame = true;
       this.drawEnd("win");
       this.stopAllSounds();
     }, 200);
   }
   hasLost() {
     this.lose = true;
-    // this.requestId = null;
+    this.stopAnimationFrame = true;
     this.drawEnd("lose");
+    this.stopAllSounds();
   }
 
   drawEnd(result) {
@@ -209,6 +214,8 @@ class Match {
       this.canvas.height / 3
     );
     // const myWidth = this.ctx.measureText("My text").width;
+    this.ctx.save()
+
     this.ctx.testBaseline = "middle";
     this.ctx.font = "30px serif";
     this.ctx.fillStyle = "red";
@@ -233,6 +240,7 @@ class Match {
       this.canvas.width / 2,
       this.canvas.height / 2 + 40
     );
+    this.ctx.restore()
   }
 
   clearBullets() {

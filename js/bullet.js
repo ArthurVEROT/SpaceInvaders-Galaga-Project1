@@ -57,6 +57,7 @@ class SpaceshipBullet extends Bullet {
           this.match.alienArmy.removeAlien(rowIndex, alienIndex);
           this.match.spaceship.removeSpaceshipBullet(bulletIndex);
           this.match.trackScore();
+          this.match.game.trackHighScore()
           return true;
         }
       });

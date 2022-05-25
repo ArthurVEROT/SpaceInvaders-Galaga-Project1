@@ -10,9 +10,29 @@
   </head>
   <body>
     <main>
-      <h2>Main</h2>
-      <button id="start-button">Start</button>
-      <canvas id="canvas" width="600" height="500px"> </canvas>
+      <section id="homepage">
+        <img id="spaceinvaders-logo" src="./images/Space_Invaders_Logo.png" alt="SpaceInvadersLogo">
+        <button id="playButton" class="button">Play</button>
+        <div class="container">
+          <h2>Rules</h2>
+          <p>You have to kill all the aliens in order to win.</p>
+          <ul>
+            <li>Turn right with <strong><u>"Arrow-Right"</u></strong></li>
+            <li>Turn left with <strong><u>"Arrow-Left"</u></strong></li>
+            <li>Go up with <strong><u>"Arrow-Up"</u></strong></li>
+            <li>Go down with <strong><u>"Arrow-Down"</u></strong></li>
+            <li>Shoot with <strong><u>"Space"</u></strong></li>
+          </ul>
+        </div>
+        <!-- <div class="container">
+          <h2>Settings</h2>
+        </div> -->
+      </section>
+      
+      <section id="gamepage">
+        <button id="start-button" class="button">Start</button>
+        <canvas id="canvas" width="600" height="500px"> </canvas>
+      </section>
     </main>
 
     <script type="text/javascript" src="js/background.js"></script>

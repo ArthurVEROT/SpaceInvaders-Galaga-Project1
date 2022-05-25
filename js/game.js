@@ -23,6 +23,7 @@ class Game {
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
     this.match = new Match(this.canvas, this.ctx, this);
+    console.log("this.canvas.width", this.canvas.width);
   }
 
   clearCanvas() {
@@ -30,18 +31,22 @@ class Game {
   }
 
   restartMatch() {
-    this.match.stopAnimationFrame = true;
-    this.match.stopAllSounds();
+    if (!(this.match.win) && !(this.match.lose)) {
+      this.match.stopAnimationFrame = true;
+      this.match.stopAllSounds();
+    }
     setTimeout(() => {
       this.clearCanvas();
+      this.ctx = null;
+      this.canvas = null;
       this.match = null;
       this.startMatch();
     }, 500);
   }
 
   trackHighScore() {
-    if (this.highScore <= this.match.score) {
-      this.highScore = this.score;
+    if (this.highScore < this.match.score) {
+      this.highScore = this.match.score;
     }
   }
 

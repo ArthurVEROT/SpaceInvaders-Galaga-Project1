@@ -79,7 +79,6 @@ class Spaceship {
       this.lives += 1;
     }
     if (this.lives === -1) {
-      console.log(this.match.lose);
       this.match.hasLost();
     }
   }
