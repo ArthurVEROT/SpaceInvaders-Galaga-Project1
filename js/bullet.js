@@ -3,8 +3,8 @@ class Bullet {
     this.match = match;
     this.canvas = canvas;
     this.ctx = ctx;
-    this.width = 5;
-    this.height = 5;
+    this.width = 4;
+    this.height = 4;
     this.x = x;
     this.y = y;
   }

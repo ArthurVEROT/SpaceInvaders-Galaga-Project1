@@ -176,10 +176,10 @@ class Match {
     console.log("this.canvas.width", this.canvas.width);
     this.ctx.fillText(
       `High score: ${this.game.highScore}`,
-      this.canvas.width - 125,
+      this.canvas.width - 145,
       20
     );
-    console.log('this.ctx.fillText.x', this.ctx.fillText.x);
+    console.log("this.ctx.fillText.x", this.ctx.fillText.x);
   }
 
   // When your spaceship is hit by a bullet, it freeze, all the bullets disappear and you lose a life
@@ -188,6 +188,7 @@ class Match {
     setTimeout(() => {
       this.clearBullets();
       this.runEveryFrame();
+      this.spaceship.spaceShipToInitialPosition();
     }, 500);
   }
 
@@ -195,53 +196,64 @@ class Match {
     setTimeout(() => {
       this.win = true;
       this.stopAnimationFrame = true;
-      this.drawEnd("win");
+      // this.drawEnd("win");
       this.stopAllSounds();
+      this.displayResultMessage('win')
     }, 200);
   }
   hasLost() {
     this.lose = true;
     this.stopAnimationFrame = true;
-    this.drawEnd("lose");
+    // this.drawEnd("lose");
     this.stopAllSounds();
+    this.displayResultMessage('lose')
   }
 
-  drawEnd(result) {
-    this.ctx.fillRect(
-      this.canvas.width / 5,
-      this.canvas.height / 3,
-      (this.canvas.width / 5) * 3,
-      this.canvas.height / 3
-    );
-    // const myWidth = this.ctx.measureText("My text").width;
-    this.ctx.save()
-
-    this.ctx.testBaseline = "middle";
-    this.ctx.font = "30px serif";
-    this.ctx.fillStyle = "red";
-    this.ctx.textAlign = "center";
-
-    if (result === "lose") {
-      this.ctx.fillText(
-        `You lost`,
-        this.canvas.width / 2,
-        this.canvas.height / 2
-      );
+  displayResultMessage(result) {
+    if (result === 'win') {
+      winMessage.style.display = "flex"
     }
-    if (result === "win") {
-      this.ctx.fillText(
-        `You win`,
-        this.canvas.width / 2,
-        this.canvas.height / 2
-      );
+    if (result === 'lose') {
+      loseMessage.style.display = "flex"
     }
-    this.ctx.fillText(
-      `Score: ${this.score}`,
-      this.canvas.width / 2,
-      this.canvas.height / 2 + 40
-    );
-    this.ctx.restore()
   }
+
+  // drawEnd(result) {
+  //   this.ctx.fillRect(
+  //     this.canvas.width / 5,
+  //     this.canvas.height / 3,
+  //     (this.canvas.width / 5) * 3,
+  //     this.canvas.height / 3
+  //   );
+  //   // const myWidth = this.ctx.measureText("My text").width;
+  //   this.ctx.save();
+
+  //   this.ctx.testBaseline = "middle";
+  //   this.ctx.font = "30px serif";
+  //   this.ctx.fillStyle = "red";
+  //   this.ctx.textAlign = "center";
+
+  //   if (result === "lose") {
+  //     this.ctx.fillText(
+  //       `You lost`,
+  //       this.canvas.width / 2,
+  //       this.canvas.height / 2
+  //     );
+  //   }
+  //   if (result === "win") {
+  //     this.ctx.fillText(
+  //       `You win`,
+  //       this.canvas.width / 2,
+  //       this.canvas.height / 2
+  //     );
+  //   }
+  //   this.ctx.fillText(
+  //     `Score: ${this.score}`,
+  //     this.canvas.width / 2,
+  //     this.canvas.height / 2 + 40
+  //   );
+  //   this.ctx.restore();
+  // }
 
   clearBullets() {
     this.alienArmy.clearAmmunition();

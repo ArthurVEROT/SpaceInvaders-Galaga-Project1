@@ -143,4 +143,9 @@ class Spaceship {
   clearAmmunition() {
     this.bullets = [];
   }
+
+  spaceShipToInitialPosition() {
+    this.x = this.canvas.width / 2 - this.width / 2;
+    this.y = this.canvas.height - this.height - 20;
+  }
 }

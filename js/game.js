@@ -8,6 +8,7 @@ class Game {
   }
   init() {
     const startButton = document.getElementById("start-button");
+
     startButton.addEventListener("click", () => {
       this.startMatch();
       startButton.textContent = "Restart";
@@ -35,13 +36,15 @@ class Game {
       this.match.stopAnimationFrame = true;
       this.match.stopAllSounds();
     }
-    setTimeout(() => {
-      this.clearCanvas();
-      this.ctx = null;
-      this.canvas = null;
-      this.match = null;
-      this.startMatch();
-    }, 500);
+    if ((this.match.win) || (this.match.lose)) {
+      winMessage.style.display = "none"
+      loseMessage.style.display = "none"
+    }
+    this.clearCanvas();
+    this.ctx = null;
+    this.canvas = null;
+    this.match = null;
+    this.startMatch();
   }
 
   trackHighScore() {

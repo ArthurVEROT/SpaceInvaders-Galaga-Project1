@@ -1,6 +1,4 @@
-@import url('http://fonts.cdnfonts.com/css/serious');
-
-
+@import url("http://fonts.cdnfonts.com/css/serious");
 
 * {
   /* border: 0.5px solid red; */
@@ -12,7 +10,7 @@ html {
   padding: 0;
   /* background-color: black; */
   /* color: white; */
-  font-family: 'serious1', sans-serif;
+  font-family: "serious1", sans-serif;
 }
 
 body {
@@ -31,7 +29,6 @@ main {
 
 #spaceinvaders-logo {
   margin: 40px;
-
 }
 
 #homepage {
@@ -46,7 +43,7 @@ main {
   background-color: white;
   border: 1px solid black;
   color: green;
-  font-family: 'serious1', sans-serif;
+  font-family: "serious1", sans-serif;
   font-weight: bold;
   font-size: 3rem;
 
@@ -81,9 +78,41 @@ main {
   cursor: pointer;
 }
 
-footer {
+#canvas-container {
+  position: relative;
 }
 
 canvas {
   border: 1px solid black;
+}
+
+.message-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255, 0.5);
+
+  position: absolute;
+  top: 0;
+  border: 1px solid red;
+  width: 600px;
+  height: 500px;
+}
+
+.message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  padding: 50px;
+  font-size: 2rem;
+  z-index: 1;
+}
+
+#lose-message {
+  color: red;
+}
+
+#win-message {
+  color: green;
 }
