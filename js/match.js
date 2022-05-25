@@ -170,8 +170,6 @@ class Match {
     );
   }
 
-
-
   // When your spaceship is hit by a bullet, it freeze, all the bullets disappear and you lose a life
   startNewRound() {
     this.newRound = false;
