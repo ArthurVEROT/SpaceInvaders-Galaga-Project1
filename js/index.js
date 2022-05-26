@@ -1,5 +1,5 @@
-const homePage = document.querySelector("#homepage");
-const gamePage = document.querySelector("#gamepage");
+const homePage = document.querySelector(".homepage");
+const gamePage = document.querySelector(".gamepage");
 
 const playButton = document.getElementById("playButton");
 const startButton = document.getElementById("start-button");
@@ -12,11 +12,15 @@ const loseMessage = document.querySelector("#lose-message");
 let myNewGame = null;
 
 playButton.addEventListener("click", () => {
+  homePage.classList.add("transform-left");
+  gamePage.classList.add("transform-fade");
+
   gamePage.style.display = "flex";
-  homePage.style.display = "none";
+  gamePage.style.visibility = 'visible';
+  
+  
+
   myNewGame = new Game();
-  console.log(myNewGame);
-  console.log("myNewGame.match", myNewGame.match);
 });
 
 // homepageButton.addEventListener("click", () => {

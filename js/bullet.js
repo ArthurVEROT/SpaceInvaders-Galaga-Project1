@@ -25,11 +25,17 @@ class Bullet {
     return false;
   }
 }
-
+//
+//
+//
+//////// SPACESHIP BULLET ////////////
+//
+//
+//
 class SpaceshipBullet extends Bullet {
   constructor(canvas, ctx, x, y, match) {
     super(canvas, ctx, x, y, match);
-    this.speed = 12;
+    this.speed = 14;
     this.image = new Image();
     this.init();
   }
@@ -102,7 +108,13 @@ class SpaceshipBullet extends Bullet {
     }
   }
 }
-
+//
+//
+//
+//////// ALIEN BULLET ////////////
+//
+//
+//
 class AlienBullet extends Bullet {
   constructor(canvas, ctx, x, y, match) {
     super(canvas, ctx, x, y, match);

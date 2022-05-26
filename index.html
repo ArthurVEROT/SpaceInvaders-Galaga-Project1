@@ -10,14 +10,14 @@
   </head>
   <body>
     <main>
-      <section id="homepage">
+      <section class="homepage">
         <img
           id="spaceinvaders-logo"
           src="./images/Space_Invaders_Logo.png"
           alt="SpaceInvadersLogo"
         />
         <button id="playButton" class="button">Play</button>
-        <div class="container">
+        <div class="container-rules">
           <h2>Rules</h2>
           <p>You have to kill all the aliens in order to win.</p>
           <ul>
@@ -40,18 +40,20 @@
         </div>
       </section>
 
-      <section id="gamepage">
-        <div id="button-container">
-          <button id="start-button" class="button">Start</button>
-          <button id="pause-button" class="button">Pause</button>
-        </div>
-        <div id="canvas-container">
-          <canvas id="canvas" width="600" height="500px"> </canvas>
-          <div class="message-container" id="lose-message">
-            <div class="message">Game Over</div>
+      <section class="gamepage">
+        <div class="canvas-button-container">
+          <div id="button-container">
+            <button id="start-button" class="button">Start</button>
+            <button id="pause-button" class="button">Pause</button>
           </div>
-          <div class="message-container" id="win-message">
-            <div class="message" >You win</div>
+          <div id="canvas-container">
+            <canvas id="canvas" width="600" height="500px"> </canvas>
+            <div class="message-container" id="lose-message">
+              <div class="message">Game Over</div>
+            </div>
+            <div class="message-container" id="win-message">
+              <div class="message">You win</div>
+            </div>
           </div>
         </div>
       </section>

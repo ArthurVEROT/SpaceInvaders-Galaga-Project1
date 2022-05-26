@@ -3,6 +3,8 @@
 * {
   /* border: 0.5px solid red; */
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -17,26 +19,43 @@ body {
   font-size: 1.4rem;
 }
 
-header {
-}
-
 main {
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column; */
 }
 
 #spaceinvaders-logo {
   margin: 40px;
 }
 
-#homepage {
+/* 
+/
+/
+/
+HOME PAGE
+/
+/
+/
+*/
+
+.homepage {
+  /* z-index: 2; */
+
   display: flex;
+  width: 100vw;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
+
+.transform-left {
+  /* transform: scaleX(-60%); */
+  width: 50vw;
+  transition: width 500ms ease-in-out;
+}
+
 .button {
   cursor: pointer;
   padding: 10px 20px;
@@ -58,7 +77,7 @@ main {
   background-color: rgb(175, 175, 175);
 }
 
-.container {
+.container-rules {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,15 +86,48 @@ main {
   margin: 20px 0;
 }
 
-#gamepage {
-  display: none;
+/* 
+/
+/
+/
+GAME PAGE
+/
+/
+/
+*/
+
+.gamepage {
+  /* z-index: 1; */
+  /* border: 1px solid black; */
+  padding: 0 60px;
+
+  visibility: hidden;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-10%, -50%);
+
+  opacity: 0;
+}
+
+.transform-fade {
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+}
+
+.gamepage-container {
+  display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 }
 
 #button-container {
   display: flex;
+  justify-content: center;
 }
 
 #homepage-button {
@@ -102,7 +154,7 @@ canvas {
 
   position: absolute;
   top: 0;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   width: 600px;
   height: 500px;
 }
@@ -124,4 +176,3 @@ canvas {
 #win-message {
   color: green;
 }
-
