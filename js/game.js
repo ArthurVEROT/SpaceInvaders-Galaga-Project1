@@ -32,7 +32,7 @@ class Game {
   restartMatch() {
     if (!this.match.win && !this.match.lose) {
       this.match.stopAnimationFrame = true;
-      this.match.stopAllSounds();
+      this.match.resetBackgroundMusic();
     }
     if (this.match.win || this.match.lose) {
       winMessage.style.display = "none";

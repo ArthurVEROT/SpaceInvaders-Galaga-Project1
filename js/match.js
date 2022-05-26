@@ -17,7 +17,7 @@ class Match {
     this.stopAnimationFrame = false;
 
     this.soundEffectVolume = 0.2;
-    this.backgroundMusic = new Audio("./sounds/spaceinvaders1.mpeg");
+    // this.backgroundMusic = new Audio("./sounds/spaceinvaders1.mpeg");
     this.invaderKilledSound = new Audio("./sounds/invaderKilled.wav");
     this.shootingSound = new Audio("./sounds/shoot.wav");
     this.explosionSound = new Audio("./sounds/explosion.wav");
@@ -246,10 +246,12 @@ class Match {
 
   ///////// SOUNDS ///////////
   playBackgroundMusic() {
-    this.backgroundMusic.play();
+    // this.backgroundMusic.play();
+    backgroundMusic.play();
   }
   pauseBackgroundMusic() {
-    this.backgroundMusic.pause();
+    backgroundMusic.pause();
+    // this.backgroundMusic.pause();
   }
 
   playInvaderKilledSound() {
@@ -271,11 +273,14 @@ class Match {
   }
 
   stopAllSounds() {
-    this.backgroundMusic.pause();
+    backgroundMusic.pause();
+    // this.backgroundMusic.pause();
   }
 
   resetBackgroundMusic() {
-    this.backgroundMusic.pause();
-    this.backgroundMusic.currentTime = 0;
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+    // this.backgroundMusic.pause();
+    // this.backgroundMusic.currentTime = 0;
   }
 }
