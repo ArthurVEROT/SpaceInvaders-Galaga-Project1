@@ -14,7 +14,7 @@ class Match {
     this.lose = false;
     this.win = false;
     this.newRound = false;
-    // this.stopAnimationFrame = false;
+    this.stopAnimationFrame = false;
 
     this.soundEffectVolume = 0.2;
     this.backgroundMusic = new Audio("./sounds/spaceinvaders1.mpeg");
@@ -173,6 +173,10 @@ class Match {
       cancelAnimationFrame(this.requestId);
       return;
     }
+    if (this.stopAnimationFrame) {
+      cancelAnimationFrame(this.requestId);
+      return;
+    }
 
     this.requestId = window.requestAnimationFrame(() => {
       this.runEveryFrame();
@@ -212,14 +216,12 @@ class Match {
   hasWon() {
     setTimeout(() => {
       this.win = true;
-      // this.stopAnimationFrame = true;
       this.stopAllSounds();
       this.displayResultMessage("win");
     }, 200);
   }
   hasLost() {
     this.lose = true;
-    // this.stopAnimationFrame = true;
     this.stopAllSounds();
     this.displayResultMessage("lose");
   }
@@ -236,6 +238,10 @@ class Match {
   clearBullets() {
     this.alienArmy.clearAmmunition();
     this.spaceship.clearAmmunition();
+  }
+
+  reset() {
+    this.resetBackgroundMusic();
   }
 
   ///////// SOUNDS ///////////
@@ -266,5 +272,10 @@ class Match {
 
   stopAllSounds() {
     this.backgroundMusic.pause();
+  }
+
+  resetBackgroundMusic() {
+    this.backgroundMusic.pause();
+    this.backgroundMusic.currentTime = 0;
   }
 }
