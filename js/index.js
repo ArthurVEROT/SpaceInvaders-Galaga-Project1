@@ -8,7 +8,7 @@ const pauseButton = document.getElementById("pause-button");
 const winMessage = document.querySelector("#win-message");
 const loseMessage = document.querySelector("#lose-message");
 
-const myNewGame = null
+let myNewGame = null
 
 playButton.addEventListener("click", () => {
   if (myNewGame) {return}
