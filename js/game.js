@@ -7,8 +7,6 @@ class Game {
     this.init();
   }
   init() {
-    const startButton = document.getElementById("start-button");
-
     startButton.addEventListener("click", () => {
       this.startMatch();
       startButton.textContent = "Restart";

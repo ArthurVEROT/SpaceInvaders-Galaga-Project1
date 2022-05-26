@@ -18,34 +18,54 @@ class Spaceship {
     this.Space = false;
     this.shotPace = 200;
     this.lastshot = Date.now();
+    this.explosionImage = new Image();
     this.init();
   }
 
   init() {
     this.image.src = "./images/spaceship.png";
+    this.explosionImage.src = "./images/explosion.png";
     this.image.addEventListener("load", () => {
       this.draw();
       this.drawLives();
     });
   }
+
+  drawAll() {
+    console.log("this.explosion", this.explosion);
+    this.draw();
+    this.drawBullets();
+    this.drawLives();
+  }
+
   draw() {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 
+  drawExplosion() {
+    this.ctx.drawImage(
+      this.explosionImage,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
+  }
+
   move() {
-    if (this.ArrowLeft === true) {
+    if (this.ArrowLeft) {
       if (this.x < this.width / 2) return;
       this.x -= this.spaceshipSpeed;
     }
-    if (this.ArrowRight === true) {
+    if (this.ArrowRight) {
       if (this.x > this.canvas.width - this.width * 1.25) return;
       this.x += this.spaceshipSpeed;
     }
-    if (this.ArrowUp === true) {
+    if (this.ArrowUp) {
       if (this.y < 0) return;
       this.y -= this.spaceshipSpeed;
     }
-    if (this.ArrowDown === true) {
+    if (this.ArrowDown) {
       if (this.y + this.height > this.canvas.height - 20) return;
       this.y += this.spaceshipSpeed;
     }
@@ -72,6 +92,7 @@ class Spaceship {
   trackLives(action) {
     if (action === "lose") {
       this.lives -= 1;
+      this.drawExplosion();
       this.match.playExplosionSound();
       this.match.newRound = true;
     }

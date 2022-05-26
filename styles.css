@@ -74,6 +74,14 @@ main {
   flex-direction: column;
 }
 
+#button-container {
+  display: flex;
+}
+
+#homepage-button {
+  color: red;
+}
+
 #start-button {
   cursor: pointer;
 }
@@ -105,7 +113,7 @@ canvas {
   align-items: center;
   background-color: white;
   padding: 50px;
-  font-size: 2rem;
+  font-size: 3rem;
   z-index: 1;
 }
 
