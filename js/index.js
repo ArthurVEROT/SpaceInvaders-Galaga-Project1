@@ -1,9 +1,10 @@
 const homePage = document.querySelector("#homepage");
 const gamePage = document.querySelector("#gamepage");
 
-const playButton = document.querySelector("#playButton");
+const playButton = document.getElementById("playButton");
 const startButton = document.getElementById("start-button");
-const homepageButton = document.querySelector("#homepage-button");
+const pauseButton = document.getElementById("pause-button");
+// const homepageButton = document.querySelector("#homepage-button");
 
 const winMessage = document.querySelector("#win-message");
 const loseMessage = document.querySelector("#lose-message");
@@ -18,10 +19,10 @@ playButton.addEventListener("click", () => {
   console.log("myNewGame.match", myNewGame.match);
 });
 
-homepageButton.addEventListener("click", () => {
-  myNewGame.match = null;
-  myNewGame = null;
-  console.log(myNewGame);
-  gamePage.style.display = "none";
-  homePage.style.display = "flex";
-});
+// homepageButton.addEventListener("click", () => {
+//   myNewGame.match = null;
+//   myNewGame = null;
+//   console.log(myNewGame);
+//   gamePage.style.display = "none";
+//   homePage.style.display = "flex";
+// });

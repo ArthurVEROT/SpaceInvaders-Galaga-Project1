@@ -30,13 +30,13 @@ class Game {
   }
 
   restartMatch() {
-    if (!(this.match.win) && !(this.match.lose)) {
+    if (!this.match.win && !this.match.lose) {
       this.match.stopAnimationFrame = true;
       this.match.stopAllSounds();
     }
-    if ((this.match.win) || (this.match.lose)) {
-      winMessage.style.display = "none"
-      loseMessage.style.display = "none"
+    if (this.match.win || this.match.lose) {
+      winMessage.style.display = "none";
+      loseMessage.style.display = "none";
     }
     this.clearCanvas();
     this.ctx = null;

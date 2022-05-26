@@ -14,7 +14,7 @@ class Match {
     this.lose = false;
     this.win = false;
     this.newRound = false;
-    this.stopAnimationFrame = false;
+    // this.stopAnimationFrame = false;
 
     this.soundEffectVolume = 0.2;
     this.backgroundMusic = new Audio("./sounds/spaceinvaders1.mpeg");
@@ -28,6 +28,18 @@ class Match {
 
   init() {
     this.matchOn = true;
+    pauseButton.addEventListener("click", () => {
+      if (this.pause) {
+        this.continueMatch();
+        pauseButton.textContent = "Pause";
+        pauseButton.blur();
+      } else {
+        this.pauseMatch();
+        pauseButton.textContent = "Continue";
+        pauseButton.blur();
+      }
+    });
+
     this.playBackgroundMusic();
     this.background = new Background(
       this.canvas,
@@ -77,6 +89,17 @@ class Match {
         this.spaceship.Space = false;
       }
     });
+  }
+
+  pauseMatch() {
+    this.pause = true;
+    this.pauseBackgroundMusic();
+  }
+
+  continueMatch() {
+    this.pause = false;
+    this.playBackgroundMusic();
+    this.runEveryFrame();
   }
 
   moveAll() {
@@ -146,7 +169,7 @@ class Match {
       this.startNewRound();
       return;
     }
-    if (this.stopAnimationFrame) {
+    if (this.win || this.lose || this.pause) {
       cancelAnimationFrame(this.requestId);
       return;
     }
@@ -189,14 +212,14 @@ class Match {
   hasWon() {
     setTimeout(() => {
       this.win = true;
-      this.stopAnimationFrame = true;
+      // this.stopAnimationFrame = true;
       this.stopAllSounds();
       this.displayResultMessage("win");
     }, 200);
   }
   hasLost() {
     this.lose = true;
-    this.stopAnimationFrame = true;
+    // this.stopAnimationFrame = true;
     this.stopAllSounds();
     this.displayResultMessage("lose");
   }
@@ -215,15 +238,12 @@ class Match {
     this.spaceship.clearAmmunition();
   }
 
-
-  pauseMatch() {
-  }
-
-
-
   ///////// SOUNDS ///////////
   playBackgroundMusic() {
     this.backgroundMusic.play();
+  }
+  pauseBackgroundMusic() {
+    this.backgroundMusic.pause();
   }
 
   playInvaderKilledSound() {
