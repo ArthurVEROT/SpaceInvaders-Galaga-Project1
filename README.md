@@ -1,4 +1,4 @@
-# SpaceInvaders-Galaga-Project1
+# Space Invaders / Galaga Game
 
 ## Description
 
