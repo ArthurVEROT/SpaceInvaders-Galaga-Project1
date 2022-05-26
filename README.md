@@ -1,5 +1,4 @@
 # SpaceInvaders-Galaga-Project1
-SpaceInvaders / Galaga
 
 ## Description
 
