@@ -19,3 +19,5 @@ I have classes for :
 - Alien
 - Bullet
 - Background
+
+The game is available [here] (https://arthurverot.com/SpaceInvaders-Galaga-Project1/).
