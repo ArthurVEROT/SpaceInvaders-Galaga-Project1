@@ -15,11 +15,11 @@ playButton.addEventListener("click", () => {
   homePage.style.display = "none";
   myNewGame = new Game();
   console.log(myNewGame);
-  console.log('myNewGame.match', myNewGame.match);
+  console.log("myNewGame.match", myNewGame.match);
 });
 
 homepageButton.addEventListener("click", () => {
-  myNewGame.match = null
+  myNewGame.match = null;
   myNewGame = null;
   console.log(myNewGame);
   gamePage.style.display = "none";

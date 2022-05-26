@@ -1,5 +1,5 @@
 class AlienArmy {
-  constructor(canvas, ctx, x, y, match) {
+  constructor(canvas, ctx, match) {
     this.match = match;
     this.canvas = canvas;
     this.ctx = ctx;
@@ -27,11 +27,11 @@ class AlienArmy {
     this.aliensBullets = [];
     this.armyMoveSpeed = 1;
     this.lastShot = Date.now();
-    this.shotPace = 4000;
+    this.shotPace = 5000;
 
     this.lastMove = Date.now();
-    this.movePace = 250;
-    this.moveSpeed = 10;
+    this.movePace = 50;
+    this.moveSpeed = 2;
     this.moveDirection = "right";
     this.init();
   }

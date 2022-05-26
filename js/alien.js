@@ -4,15 +4,15 @@ class Alien {
     this.canvas = canvas;
     this.ctx = ctx;
     this.image = new Image();
-    this.width = 20;
-    this.height = 20;
+    this.width = 17;
+    this.height = 17;
     this.x = x;
     this.y = y;
     this.aliensMoveSpeed = 3;
     this.init();
   }
   init() {
-    this.image.src = "./images/alienWhite.png";
+    this.image.src = "./images/alien-ship.png";
     this.image.addEventListener("load", () => this.draw());
   }
   draw() {

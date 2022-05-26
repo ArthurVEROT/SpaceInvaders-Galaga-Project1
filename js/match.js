@@ -35,7 +35,7 @@ class Match {
       this.backgroundMoveSpeed
     );
     this.spaceship = new Spaceship(this.canvas, this.ctx, this);
-    this.alienArmy = new AlienArmy(this.canvas, this.ctx, 100, 100, this);
+    this.alienArmy = new AlienArmy(this.canvas, this.ctx, this);
     this.createEventListeners();
 
     this.runEveryFrame();
@@ -217,8 +217,6 @@ class Match {
 
 
   pauseMatch() {
-    
-
   }
 
 

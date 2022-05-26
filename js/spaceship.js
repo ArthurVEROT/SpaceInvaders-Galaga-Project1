@@ -32,7 +32,6 @@ class Spaceship {
   }
 
   drawAll() {
-    console.log("this.explosion", this.explosion);
     this.draw();
     this.drawBullets();
     this.drawLives();
