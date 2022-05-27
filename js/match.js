@@ -220,13 +220,13 @@ class Match {
   }
 
   drawScore() {
-    this.ctx.font = "1rem serious1, sans-serif";
+    this.ctx.font = "1.2rem VT323, sans-serif";
     this.ctx.fillStyle = "white";
     this.ctx.fillText(`Score: ${this.score}`, 5, 20);
   }
 
   drawHighScore() {
-    this.ctx.font = "1rem serious1, sans-serif";
+    this.ctx.font = "1.2rem VT323, sans-serif";
     this.ctx.fillStyle = "white";
     this.ctx.fillText(
       `High score: ${this.game.highScore}`,
