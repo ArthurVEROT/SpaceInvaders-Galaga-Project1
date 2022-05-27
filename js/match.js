@@ -76,10 +76,9 @@ class Match {
     this.pause = false;
     this.endPauseTime = Date.now();
     this.calculatePauseTime();
-    this.alienArmy.lastShot += this.pauseTime
+    this.alienArmy.lastShot += this.pauseTime;
     this.playBackgroundMusic();
     this.updateCanvas();
-    
   }
 
   // to avoid shooting during the pause

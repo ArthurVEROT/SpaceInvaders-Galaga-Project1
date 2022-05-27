@@ -88,10 +88,10 @@ HOME PAGE
 }
 
 #arrow-explain {
-  width: 70%;
+  width: 60%;
 }
 #arrow-img-container {
-  width: 30%;
+  width: 40%;
   display: flex;
   justify-content: center;
 }
