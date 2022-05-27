@@ -133,7 +133,6 @@ class AlienArmy {
     });
   }
 
-
   //
   //
   // Shoot and bullets

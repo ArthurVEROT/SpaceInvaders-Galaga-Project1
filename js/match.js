@@ -27,6 +27,9 @@ class Match {
     this.soundEffectVolume = 0.2;
 
     this.pause = false;
+    this.pauseTime = 0;
+    this.startPauseTime = 0;
+    this.endPauseTime = 0;
     this.init();
   }
 
@@ -65,13 +68,23 @@ class Match {
 
   pauseMatch() {
     this.pause = true;
+    this.startPauseTime = Date.now();
     this.pauseBackgroundMusic();
   }
 
   continueMatch() {
     this.pause = false;
+    this.endPauseTime = Date.now();
+    this.calculatePauseTime();
+    this.alienArmy.lastShot += this.pauseTime
     this.playBackgroundMusic();
     this.updateCanvas();
+    
+  }
+
+  // to avoid shooting during the pause
+  calculatePauseTime() {
+    this.pauseTime = this.endPauseTime - this.startPauseTime;
   }
 
   createEventListeners() {
@@ -179,7 +192,16 @@ class Match {
     this.spaceship.checkBoundariesForBullets();
   }
 
-  ///////////////////////////////////////////// RUN EVERY FRAME /////////////////////////////////////////////
+  /////
+  //////
+  /////
+  //////
+  /////////////////////// RUN EVERY FRAME //////////////////////
+  /////
+  //////
+  //////
+  //////
+
   updateCanvas() {
     this.drawAll();
     this.checkCollision();
