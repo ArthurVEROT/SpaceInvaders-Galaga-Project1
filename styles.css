@@ -1,4 +1,4 @@
-@import url("http://fonts.cdnfonts.com/css/serious");
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 * {
   /* border: 0.5px solid red; */
@@ -12,11 +12,13 @@ html {
   padding: 0;
   /* background-color: black; */
   /* color: white; */
-  font-family: "serious1", sans-serif;
+  font-family: 'VT323', monospace;
+
 }
 
 body {
-  font-size: 1.4rem;
+  font-size: 1.8rem;
+  
 }
 
 main {
@@ -62,7 +64,8 @@ HOME PAGE
   background-color: white;
   border: 1px solid black;
   color: green;
-  font-family: "serious1", sans-serif;
+  /* font-family: "serious1", sans-serif; */
+  font-family: 'VT323', monospace;
   font-weight: bold;
   font-size: 3rem;
 
