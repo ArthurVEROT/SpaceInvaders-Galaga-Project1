@@ -1,3 +1,13 @@
+//
+//
+// Class Spaceship is responsible for :
+// - construc the spaceship image
+// - Specify its size and emplacement
+// - spaceship move and shoot
+// - track lives
+//
+//
+
 class Spaceship {
   constructor(canvas, ctx, match) {
     this.match = match;
@@ -41,16 +51,6 @@ class Spaceship {
     this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
   }
 
-  drawExplosion() {
-    this.ctx.drawImage(
-      this.explosionImage,
-      this.x,
-      this.y,
-      this.width,
-      this.height
-    );
-  }
-
   move() {
     if (this.ArrowLeft) {
       if (this.x < this.width / 2) return;
@@ -88,6 +88,9 @@ class Spaceship {
     this.match.playShootingSound();
   }
 
+  //
+  // Lives
+  //
   trackLives(action) {
     if (action === "lose") {
       this.lives -= 1;
@@ -114,6 +117,10 @@ class Spaceship {
     }
   }
 
+  //
+  // Bullets
+  //
+
   drawBullets() {
     if (!this.bullets.length > 0) {
       return;
@@ -132,6 +139,9 @@ class Spaceship {
     });
   }
 
+  //
+  // Collision
+  //
   checkCollisionWithAliens(aliens) {
     this.bullets.forEach((bullet, bulletIndex) => {
       bullet.checkCollisionWithAlien(aliens, bulletIndex);
@@ -156,6 +166,9 @@ class Spaceship {
     });
   }
 
+  //
+  // Others
+  //
   removeSpaceshipBullet(bulletIndex) {
     this.bullets.splice(bulletIndex, 1);
   }
@@ -167,5 +180,15 @@ class Spaceship {
   spaceShipToInitialPosition() {
     this.x = this.canvas.width / 2 - this.width / 2;
     this.y = this.canvas.height - this.height - 20;
+  }
+
+  drawExplosion() {
+    this.ctx.drawImage(
+      this.explosionImage,
+      this.x,
+      this.y,
+      this.width,
+      this.height
+    );
   }
 }

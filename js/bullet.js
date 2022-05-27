@@ -32,6 +32,13 @@ class Bullet {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 class SpaceshipBullet extends Bullet {
   constructor(canvas, ctx, x, y, match) {
     super(canvas, ctx, x, y, match);
@@ -115,6 +122,13 @@ class SpaceshipBullet extends Bullet {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
 class AlienBullet extends Bullet {
   constructor(canvas, ctx, x, y, match) {
     super(canvas, ctx, x, y, match);

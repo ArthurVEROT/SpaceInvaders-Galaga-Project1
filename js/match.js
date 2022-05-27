@@ -1,3 +1,11 @@
+//
+//
+// Class Match is responsible for :
+// - Construct the background, the spaceship, and the alien army.
+// - It keeps track of the score, lose & win state.
+// - It is also in charge of updating the canvas every frame.
+//
+//
 class Match {
   constructor(canvas, ctx, game) {
     this.game = game;
@@ -10,24 +18,22 @@ class Match {
     this.score = 0;
 
     this.requestId = null;
-    this.matchOn = false;
+    // this.matchOn = false;
     this.lose = false;
     this.win = false;
     this.newRound = false;
     this.stopAnimationFrame = false;
 
     this.soundEffectVolume = 0.2;
-    // this.backgroundMusic = new Audio("./sounds/spaceinvaders1.mpeg");
-    this.invaderKilledSound = new Audio("./sounds/invaderKilled.wav");
-    this.shootingSound = new Audio("./sounds/shoot.wav");
-    this.explosionSound = new Audio("./sounds/explosion.wav");
 
     this.pause = false;
     this.init();
   }
 
   init() {
-    this.matchOn = true;
+    // this.matchOn = true;
+
+    // I create the event listener for the pause/continue button
     pauseButton.addEventListener("click", () => {
       if (this.pause) {
         this.continueMatch();
@@ -40,6 +46,8 @@ class Match {
       }
     });
 
+    //  When the game start, I play the background music,
+    // I create the background, the spaceship and the army
     this.playBackgroundMusic();
     this.background = new Background(
       this.canvas,
@@ -48,12 +56,28 @@ class Match {
     );
     this.spaceship = new Spaceship(this.canvas, this.ctx, this);
     this.alienArmy = new AlienArmy(this.canvas, this.ctx, this);
-    this.createEventListeners();
 
-    this.runEveryFrame();
+    // I create the events listener for arrow keys
+    // I start updating the canvas (moving, drawing, erasing)
+    this.createEventListeners();
+    this.updateCanvas();
+  }
+
+  pauseMatch() {
+    this.pause = true;
+    this.pauseBackgroundMusic();
+  }
+
+  continueMatch() {
+    this.pause = false;
+    this.playBackgroundMusic();
+    this.updateCanvas();
   }
 
   createEventListeners() {
+    //Event listener for Arrow Keys
+    // When key down, I set the behavior on true
+    //which will trigger this behavior later
     window.addEventListener("keydown", (e) => {
       if (e.code === "ArrowLeft") {
         this.spaceship.ArrowLeft = true;
@@ -67,11 +91,11 @@ class Match {
       if (e.code === "ArrowDown") {
         this.spaceship.ArrowDown = true;
       }
-
       if (e.code === "Space") {
         this.spaceship.Space = true;
       }
     });
+    // I do the opposite on key up
     window.addEventListener("keyup", (e) => {
       if (e.code === "ArrowLeft") {
         this.spaceship.ArrowLeft = false;
@@ -91,16 +115,15 @@ class Match {
     });
   }
 
-  pauseMatch() {
-    this.pause = true;
-    this.pauseBackgroundMusic();
-  }
-
-  continueMatch() {
-    this.pause = false;
-    this.playBackgroundMusic();
-    this.runEveryFrame();
-  }
+  //
+  //
+  //
+  //
+  // Canvas updating
+  //
+  //
+  //
+  //
 
   moveAll() {
     this.background.move();
@@ -125,6 +148,15 @@ class Match {
     this.drawHighScore();
   }
 
+  shootAll() {
+    if (this.spaceship) {
+      this.spaceship.shoot();
+    }
+    if (this.alienArmy) {
+      this.alienArmy.shoot();
+    }
+  }
+
   checkCollision() {
     if (!this.spaceship) {
       return;
@@ -147,17 +179,8 @@ class Match {
     this.spaceship.checkBoundariesForBullets();
   }
 
-  shootAll() {
-    if (this.spaceship) {
-      this.spaceship.shoot();
-    }
-    if (this.alienArmy) {
-      this.alienArmy.shoot();
-    }
-  }
-
-  ///////// RUN EVERY FRAME //////////
-  runEveryFrame() {
+  ///////////////////////////////////////////// RUN EVERY FRAME /////////////////////////////////////////////
+  updateCanvas() {
     this.drawAll();
     this.checkCollision();
     this.checkBoundaries();
@@ -169,19 +192,28 @@ class Match {
       this.startNewRound();
       return;
     }
-    if (this.win || this.lose || this.pause) {
-      cancelAnimationFrame(this.requestId);
-      return;
-    }
-    if (this.stopAnimationFrame) {
+    if (this.win || this.lose || this.pause || this.stopAnimationFrame) {
       cancelAnimationFrame(this.requestId);
       return;
     }
 
+    // Loop to run this method every frame
     this.requestId = window.requestAnimationFrame(() => {
-      this.runEveryFrame();
+      this.updateCanvas();
     });
   }
+
+  //
+  //
+  //
+  //
+  //
+  // Mehtods to feed to the "alls" methods above
+  //
+  //
+  //
+  //
+  //
 
   trackScore() {
     this.score += 1;
@@ -209,20 +241,28 @@ class Match {
     this.clearBullets();
     this.spaceship.spaceShipToInitialPosition();
     setTimeout(() => {
-      this.runEveryFrame();
+      this.updateCanvas();
     }, 500);
+  }
+
+  // We new round, we clear all the bullets on the screen
+  clearBullets() {
+    this.alienArmy.clearAmmunition();
+    this.spaceship.clearAmmunition();
   }
 
   hasWon() {
     setTimeout(() => {
       this.win = true;
-      this.stopAllSounds();
+      this.resetBackgroundMusic();
+      // this.stopAllSounds();
       this.displayResultMessage("win");
     }, 200);
   }
   hasLost() {
     this.lose = true;
-    this.stopAllSounds();
+    this.resetBackgroundMusic();
+    // this.stopAllSounds();
     this.displayResultMessage("lose");
   }
 
@@ -235,52 +275,45 @@ class Match {
     }
   }
 
-  clearBullets() {
-    this.alienArmy.clearAmmunition();
-    this.spaceship.clearAmmunition();
-  }
+  //
+  //
+  //
+  // SOUNDS //
+  //
+  //
+  //
 
-  reset() {
-    this.resetBackgroundMusic();
-  }
-
-  ///////// SOUNDS ///////////
+  // Background music
   playBackgroundMusic() {
-    // this.backgroundMusic.play();
     backgroundMusic.play();
   }
   pauseBackgroundMusic() {
     backgroundMusic.pause();
-    // this.backgroundMusic.pause();
   }
-
-  playInvaderKilledSound() {
-    this.invaderKilledSound.pause();
-    this.invaderKilledSound.currentTime = 0;
-    this.invaderKilledSound.volume = this.soundEffectVolume;
-    this.invaderKilledSound.play();
-  }
-  playShootingSound() {
-    this.shootingSound.pause();
-    this.shootingSound.currentTime = 0;
-    this.shootingSound.volume = this.soundEffectVolume;
-    this.shootingSound.play();
-  }
-  playExplosionSound() {
-    this.explosionSound.pause();
-    this.explosionSound.volume = this.soundEffectVolume;
-    this.explosionSound.play();
-  }
-
-  stopAllSounds() {
-    backgroundMusic.pause();
-    // this.backgroundMusic.pause();
-  }
-
   resetBackgroundMusic() {
     backgroundMusic.pause();
     backgroundMusic.currentTime = 0;
-    // this.backgroundMusic.pause();
-    // this.backgroundMusic.currentTime = 0;
   }
+
+  // Others sounds
+  playInvaderKilledSound() {
+    invaderKilledSound.pause();
+    invaderKilledSound.currentTime = 0;
+    invaderKilledSound.volume = this.soundEffectVolume;
+    invaderKilledSound.play();
+  }
+  playShootingSound() {
+    shootingSound.pause();
+    shootingSound.currentTime = 0;
+    shootingSound.volume = this.soundEffectVolume;
+    shootingSound.play();
+  }
+  playExplosionSound() {
+    explosionSound.pause();
+    explosionSound.volume = this.soundEffectVolume;
+    explosionSound.play();
+  }
+  // stopAllSounds() {
+  //   backgroundMusic.pause();
+  // }
 }

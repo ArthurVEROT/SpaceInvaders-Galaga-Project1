@@ -1,3 +1,6 @@
+//
+// Getting all the HTML elements
+//
 const homePage = document.querySelector(".homepage");
 const gamePage = document.querySelector(".gamepage");
 
@@ -8,11 +11,17 @@ const pauseButton = document.getElementById("pause-button");
 const winMessage = document.querySelector("#win-message");
 const loseMessage = document.querySelector("#lose-message");
 
-const backgroundMusic = document.querySelector('audio')
+// Sounds
+const backgroundMusic = document.getElementById('background-music')
+const shootingSound = document.getElementById('shoot-sound')
+const explosionSound = document.getElementById('explosion-sound')
+const invaderKilledSound = document.getElementById('invader-sound')
 
 
+// Declaring my game to check later if a game is already on
 let myNewGame = null
 
+// Event listener on play button to start a game and make the HTML/CSS transition
 playButton.addEventListener("click", () => {
   if (myNewGame) {return}
   homePage.classList.add("transform-left");
@@ -23,11 +32,3 @@ playButton.addEventListener("click", () => {
 
   myNewGame = new Game();
 });
-
-// homepageButton.addEventListener("click", () => {
-//   myNewGame.match = null;
-//   myNewGame = null;
-//   console.log(myNewGame);
-//   gamePage.style.display = "none";
-//   homePage.style.display = "flex";
-// });

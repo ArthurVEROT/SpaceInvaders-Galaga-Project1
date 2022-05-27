@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=VT323&display=swap");
 
 * {
   /* border: 0.5px solid red; */
@@ -10,22 +10,11 @@
 html {
   margin: 0;
   padding: 0;
-  /* background-color: black; */
-  /* color: white; */
-  font-family: 'VT323', monospace;
-
+  font-family: "VT323", monospace;
 }
 
 body {
   font-size: 1.8rem;
-  
-}
-
-main {
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column; */
 }
 
 #spaceinvaders-logo {
@@ -43,8 +32,6 @@ HOME PAGE
 */
 
 .homepage {
-  /* z-index: 2; */
-
   display: flex;
   width: 100vw;
   justify-content: center;
@@ -53,7 +40,6 @@ HOME PAGE
 }
 
 .transform-left {
-  /* transform: scaleX(-60%); */
   width: 50vw;
   transition: width 500ms ease-in-out;
 }
@@ -64,8 +50,7 @@ HOME PAGE
   background-color: white;
   border: 1px solid black;
   color: green;
-  /* font-family: "serious1", sans-serif; */
-  font-family: 'VT323', monospace;
+  font-family: "VT323", monospace;
   font-weight: bold;
   font-size: 3rem;
 
@@ -126,8 +111,6 @@ GAME PAGE
 */
 
 .gamepage {
-  /* z-index: 1; */
-  /* border: 1px solid black; */
   padding: 0 60px;
 
   visibility: hidden;
@@ -187,7 +170,6 @@ canvas {
 
   position: absolute;
   top: 0;
-  /* border: 1px solid red; */
   width: 600px;
   height: 500px;
 }

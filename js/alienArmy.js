@@ -1,3 +1,12 @@
+//
+//
+// Class AlienArmy is responsible for :
+// - Construct each alien
+// - Move the all army
+// - Position and size of the all army
+//
+//
+
 class AlienArmy {
   constructor(canvas, ctx, match) {
     this.match = match;
@@ -46,6 +55,7 @@ class AlienArmy {
       this.alien.height * this.rowNumber + this.rowGap * (this.rowNumber - 1);
     this.x = (this.canvas.width - this.width) / 2;
   }
+
   makeAliens() {
     this.centerTheArmy();
     const thisXTemp = this.x;
@@ -83,14 +93,52 @@ class AlienArmy {
     }
   }
 
-  removeAlien(rowIndex, index) {
-    this.aliens[rowIndex].splice(index, 1);
+  //
+  //
+  // Move
+  //
+  //
+  sideMove() {
+    // Do we move
+    if (Date.now() - this.lastMove < this.movePace) {
+      return;
+    }
+    this.checkArmyBoundaries();
+    // Move right
+    if (this.moveDirection === "right") {
+      this.aliens.forEach((row) => {
+        row.forEach((alien) => {
+          alien.x += this.moveSpeed;
+        });
+      });
+      this.lastMove = Date.now();
+    }
 
-    let flatAleins = this.aliens.flat();
-    if (flatAleins.length === 0) {
-      this.match.hasWon();
+    // Move left
+    if (this.moveDirection === "left") {
+      this.aliens.forEach((row) => {
+        row.forEach((alien) => {
+          alien.x -= this.moveSpeed;
+        });
+      });
+      this.lastMove = Date.now();
     }
   }
+
+  downMove() {
+    this.aliens.forEach((row) => {
+      row.forEach((alien) => {
+        alien.y += 4;
+      });
+    });
+  }
+
+
+  //
+  //
+  // Shoot and bullets
+  //
+  //
 
   shoot() {
     if (Date.now() - this.lastShot < this.shotPace) {
@@ -122,6 +170,12 @@ class AlienArmy {
     });
   }
 
+  //
+  //
+  // Collision
+  //
+  //
+
   checkBulletCollisionWithSpaceship(spaceship) {
     this.aliensBullets.forEach((bullet, bulletIndex) => {
       bullet.checkCollisionWithSpaceship(spaceship, bulletIndex);
@@ -136,56 +190,8 @@ class AlienArmy {
     });
   }
 
-  checkBoundariesForBullets() {
-    this.aliensBullets.forEach((bullet, bulletIndex) => {
-      bullet.isAlienBulletOutside(bulletIndex);
-    });
-  }
-
-  removeAlienBullet(bulletIndex) {
-    this.aliensBullets.splice(bulletIndex, 1);
-  }
-
-  clearAmmunition() {
-    this.aliensBullets = [];
-  }
-
-  sideMove() {
-    // Do we move
-    if (Date.now() - this.lastMove < this.movePace) {
-      return;
-    }
-    this.checkArmyColision();
-    // Move right
-    if (this.moveDirection === "right") {
-      this.aliens.forEach((row) => {
-        row.forEach((alien) => {
-          alien.x += this.moveSpeed;
-        });
-      });
-      this.lastMove = Date.now();
-    }
-
-    // Move left
-    if (this.moveDirection === "left") {
-      this.aliens.forEach((row) => {
-        row.forEach((alien) => {
-          alien.x -= this.moveSpeed;
-        });
-      });
-      this.lastMove = Date.now();
-    }
-  }
-
-  downMove() {
-    this.aliens.forEach((row) => {
-      row.forEach((alien) => {
-        alien.y += 4;
-      });
-    });
-  }
-
-  checkArmyColision() {
+  // Collision with the side
+  checkArmyBoundaries() {
     this.aliens.forEach((row) => {
       row.forEach((alien) => {
         if (alien.x > this.canvas.width - alien.width * 1.25) {
@@ -198,5 +204,38 @@ class AlienArmy {
         }
       });
     });
+  }
+
+  checkBoundariesForBullets() {
+    this.aliensBullets.forEach((bullet, bulletIndex) => {
+      bullet.isAlienBulletOutside(bulletIndex);
+    });
+  }
+
+  //
+  // Remove
+  //
+
+  removeAlien(rowIndex, index) {
+    this.aliens[rowIndex].splice(index, 1);
+
+    let flatAleins = this.aliens.flat();
+    if (flatAleins.length === 0) {
+      this.match.hasWon();
+    }
+  }
+
+  removeAlienBullet(bulletIndex) {
+    this.aliensBullets.splice(bulletIndex, 1);
+  }
+
+  //
+  //
+  // Others
+  //
+  //
+
+  clearAmmunition() {
+    this.aliensBullets = [];
   }
 }
